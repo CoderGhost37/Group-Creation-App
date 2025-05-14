@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Cohort {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  startDate   DateTime @map("start_date")
+
+  students StudentCohort[]
+  groups   Group[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Group {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  status      GroupStatus
+
+  groupLogs GroupLog[]
+
+  adminId String?  @unique @map("admin_id") @db.ObjectId
+  admin   Student? @relation("GroupsAdministered", fields: [adminId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  members GroupMember[]
+
+  cohortId String? @map("cohort_id") @db.ObjectId
+  cohort   Cohort? @relation(fields: [cohortId], references: [id])
+
+  groupJoinRequests GroupJoinRequest[]
+
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+}
+
+model GroupJoinRequest {
+  id     String        @id @default(auto()) @map("_id") @db.ObjectId
+  status RequestStatus
+  reason String
+
+  userId String   @map("user_id") @db.ObjectId
+  user   Student? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  groupId String @map("group_id") @db.ObjectId
+  group   Group? @relation(fields: [groupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+}
+
+model GroupLog {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  type    LogType
+
+  groupId String @map("group_id") @db.ObjectId
+  group   Group? @relation(fields: [groupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model GroupMember {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  studentId String  @map("student_id") @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id])
+
+  groupId String @map("group_id") @db.ObjectId
+  group   Group  @relation(fields: [groupId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Student {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  bio         String?
+  studentLogs StudentLog[]
+
+  linkedIn String? @map("linked_in")
+  github   String?
+  twitter  String?
+  website  String?
+
+  userId String @unique @map("user_id") @db.ObjectId
+  user   User?  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  cohorts           StudentCohort[]
+  groups            GroupMember[]
+  adminOfGroups     Group[]            @relation("GroupsAdministered")
+  groupJoinRequests GroupJoinRequest[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model StudentCohort {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  studentId String  @map("student_id") @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id])
+
+  cohortId String @map("cohort_id") @db.ObjectId
+  cohort   Cohort @relation(fields: [cohortId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model StudentLog {
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  log String
+
+  studentId String   @map("student_id") @db.ObjectId
+  student   Student? @relation(fields: [studentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  role     UserRole @default(USER)
+  email    String   @unique
+  password String
+  avatar   String
+
+  student Student?
+
+  bannedAt  DateTime? @map("banned_at")
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+}
+
+enum GroupStatus {
+  OPEN
+  CLOSED
+  DELETED
+}
+
+enum LogType {
+  AUDIT
+  ANNOUNCEMENT
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
