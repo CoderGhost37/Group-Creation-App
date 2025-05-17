@@ -193,6 +193,7 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   avatar: 'avatar',
+  status: 'status',
   bannedAt: 'bannedAt',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
@@ -228,6 +229,13 @@ exports.LogType = exports.$Enums.LogType = {
 exports.UserRole = exports.$Enums.UserRole = {
   USER: 'USER',
   ADMIN: 'ADMIN',
+}
+
+exports.UserStatus = exports.$Enums.UserStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  BANNED: 'BANNED',
+  DELETED: 'DELETED',
 }
 
 exports.Prisma.ModelName = {
