@@ -1,13 +1,13 @@
 'use client'
 
-import type { UserRole } from '@/generated/prisma'
-import { ChevronUp, LogOut, type LucideIcon, User2 } from 'lucide-react'
+import { UserRole } from '@/generated/prisma'
+import { ChevronUp, LogOut, type LucideIcon } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
+import Avatar from 'react-avatar'
 
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,14 +47,22 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
-        <Link href="/">
+        <Link href="/" className="flex items-center gap-2">
           <Image
-            src={open ? '/images/trCare.png' : '/images/logo.png'}
+            src="/images/logo.png"
             alt="Logo"
             width={100}
             height={100}
-            className={cn('mx-auto w-auto object-cover', open ? 'h-16' : 'h-10')}
+            className={cn('mx-auto w-auto object-cover invert', open ? 'h-10' : 'h-10')}
           />
+          <span
+            className={cn(
+              open ? 'font-medium block w-44 truncate' : 'hidden',
+              'text-xl text-center'
+            )}
+          >
+            {user.role === UserRole.ADMIN ? 'Admin Dashboard' : 'Student Dashboard'}
+          </span>
         </Link>
       </SidebarHeader>
       <SidebarContent className="mt-6">
@@ -83,9 +91,7 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="cursor-pointer">
-                  <Avatar>
-                    <AvatarImage src={user.image} />
-                  </Avatar>
+                  <Avatar name={user.name} size="30" className="rounded-full" />
                   <span className={cn(open ? 'font-medium block w-28 truncate' : 'hidden')}>
                     {user.name}
                   </span>
@@ -93,12 +99,6 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-auto">
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/settings" className="hover:cursor-pointer">
-                    <User2 className="w-4 h-4 mr-2 text-muted-foreground" />
-                    <span>My Profile</span>
-                  </Link>
-                </DropdownMenuItem>
                 <DropdownMenuItem className="hover:cursor-pointer" onClick={() => signOut()}>
                   <LogOut className="w-4 h-4 mr-2 text-muted-foreground" />
                   Logout

@@ -4,6 +4,7 @@
 **/
 
 import * as runtime from './runtime/library.js';
+import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
 import $Extensions = runtime.Types.Extensions
@@ -311,39 +312,39 @@ export class PrismaClient<
 }
 
 export namespace Prisma {
-  export 
+  export import DMMF = runtime.DMMF
 
   export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
   /**
    * Validator
    */
-  export 
+  export import validator = runtime.Public.validator
 
   /**
    * Prisma Errors
    */
-  export 
-  export 
-  export 
-  export 
-  export 
+  export import PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
+  export import PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
+  export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
+  export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
+  export import PrismaClientValidationError = runtime.PrismaClientValidationError
 
   /**
    * Re-export of sql-template-tag
    */
-  export 
-  export 
-  export 
-  export 
-  export 
+  export import sql = runtime.sqltag
+  export import empty = runtime.empty
+  export import join = runtime.join
+  export import raw = runtime.raw
+  export import Sql = runtime.Sql
 
 
 
   /**
    * Decimal.js
    */
-  export 
+  export import Decimal = runtime.Decimal
 
   export type DecimalJsLike = runtime.DecimalJsLike
 
@@ -358,12 +359,12 @@ export namespace Prisma {
   /**
   * Extensions
   */
-  export 
-  export 
-  export 
-  export 
-  export 
-  export 
+  export import Extension = $Extensions.UserArgs
+  export import getExtensionContext = runtime.Extensions.getExtensionContext
+  export import Args = $Public.Args
+  export import Payload = $Public.Payload
+  export import Result = $Public.Result
+  export import Exact = $Public.Exact
 
   /**
    * Prisma Client JS version: 6.7.0
@@ -381,10 +382,10 @@ export namespace Prisma {
 
 
   export import JsonObject = runtime.JsonObject
-  export 
-  export 
-  export 
-  export 
+  export import JsonArray = runtime.JsonArray
+  export import JsonValue = runtime.JsonValue
+  export import InputJsonObject = runtime.InputJsonObject
+  export import InputJsonArray = runtime.InputJsonArray
   export import InputJsonValue = runtime.InputJsonValue
 
   /**
@@ -538,13 +539,13 @@ export namespace Prisma {
   /**
    * Is T a Record?
    */
-  type IsObject<T> = T extends Array<any>
+  type IsObject<T extends any> = T extends Array<any>
   ? False
   : T extends Date
   ? False
   : T extends Uint8Array
   ? False
-  : T extends bigint
+  : T extends BigInt
   ? False
   : T extends object
   ? True
@@ -554,7 +555,7 @@ export namespace Prisma {
   /**
    * If it's T[], return T
    */
-  export type UnEnumerate<T> = T extends Array<infer U> ? U : T
+  export type UnEnumerate<T extends unknown> = T extends Array<infer U> ? U : T
 
   /**
    * From ts-toolbelt
@@ -615,7 +616,7 @@ export namespace Prisma {
       0: AtLoose<O, K>;
   }[strict];
 
-  export type ComputeRaw<A> = A extends Function ? A : {
+  export type ComputeRaw<A extends any> = A extends Function ? A : {
     [K in keyof A]: A[K];
   } & {};
 
@@ -664,7 +665,7 @@ export namespace Prisma {
     1: 0
   }[B]
 
-  export type Extends<A1, A2> = [A1] extends [never]
+  export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
     ? 0 // anything `never` is false
     : A1 extends A2
     ? 1
@@ -1535,7 +1536,7 @@ export namespace Prisma {
   }
 
   export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T> = T extends Array<LogLevel | LogDefinition> ?
+  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
     GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
     : never
 
@@ -10196,7 +10197,6 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     email: string | null
     password: string | null
-    avatar: string | null
     status: $Enums.UserStatus | null
     bannedAt: Date | null
     deletedAt: Date | null
@@ -10210,7 +10210,6 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     email: string | null
     password: string | null
-    avatar: string | null
     status: $Enums.UserStatus | null
     bannedAt: Date | null
     deletedAt: Date | null
@@ -10224,7 +10223,6 @@ export namespace Prisma {
     role: number
     email: number
     password: number
-    avatar: number
     status: number
     bannedAt: number
     deletedAt: number
@@ -10240,7 +10238,6 @@ export namespace Prisma {
     role?: true
     email?: true
     password?: true
-    avatar?: true
     status?: true
     bannedAt?: true
     deletedAt?: true
@@ -10254,7 +10251,6 @@ export namespace Prisma {
     role?: true
     email?: true
     password?: true
-    avatar?: true
     status?: true
     bannedAt?: true
     deletedAt?: true
@@ -10268,7 +10264,6 @@ export namespace Prisma {
     role?: true
     email?: true
     password?: true
-    avatar?: true
     status?: true
     bannedAt?: true
     deletedAt?: true
@@ -10355,7 +10350,6 @@ export namespace Prisma {
     role: $Enums.UserRole
     email: string
     password: string
-    avatar: string
     status: $Enums.UserStatus
     bannedAt: Date | null
     deletedAt: Date | null
@@ -10386,7 +10380,6 @@ export namespace Prisma {
     role?: boolean
     email?: boolean
     password?: boolean
-    avatar?: boolean
     status?: boolean
     bannedAt?: boolean
     deletedAt?: boolean
@@ -10403,7 +10396,6 @@ export namespace Prisma {
     role?: boolean
     email?: boolean
     password?: boolean
-    avatar?: boolean
     status?: boolean
     bannedAt?: boolean
     deletedAt?: boolean
@@ -10411,7 +10403,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "role" | "email" | "password" | "avatar" | "status" | "bannedAt" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "role" | "email" | "password" | "status" | "bannedAt" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | User$studentArgs<ExtArgs>
   }
@@ -10427,7 +10419,6 @@ export namespace Prisma {
       role: $Enums.UserRole
       email: string
       password: string
-      avatar: string
       status: $Enums.UserStatus
       bannedAt: Date | null
       deletedAt: Date | null
@@ -10831,7 +10822,6 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'UserRole'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
-    readonly avatar: FieldRef<"User", 'String'>
     readonly status: FieldRef<"User", 'UserStatus'>
     readonly bannedAt: FieldRef<"User", 'DateTime'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
@@ -11355,7 +11345,6 @@ export namespace Prisma {
     role: 'role',
     email: 'email',
     password: 'password',
-    avatar: 'avatar',
     status: 'status',
     bannedAt: 'bannedAt',
     deletedAt: 'deletedAt',
@@ -12055,7 +12044,6 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
-    avatar?: StringFilter<"User"> | string
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     bannedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -12070,7 +12058,6 @@ export namespace Prisma {
     role?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    avatar?: SortOrder
     status?: SortOrder
     bannedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12088,7 +12075,6 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     password?: StringFilter<"User"> | string
-    avatar?: StringFilter<"User"> | string
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     bannedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -12103,7 +12089,6 @@ export namespace Prisma {
     role?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    avatar?: SortOrder
     status?: SortOrder
     bannedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12123,7 +12108,6 @@ export namespace Prisma {
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
-    avatar?: StringWithAggregatesFilter<"User"> | string
     status?: EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
     bannedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -12673,7 +12657,6 @@ export namespace Prisma {
     role?: $Enums.UserRole
     email: string
     password: string
-    avatar: string
     status?: $Enums.UserStatus
     bannedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -12688,7 +12671,6 @@ export namespace Prisma {
     role?: $Enums.UserRole
     email: string
     password: string
-    avatar: string
     status?: $Enums.UserStatus
     bannedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -12702,7 +12684,6 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12716,7 +12697,6 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12731,7 +12711,6 @@ export namespace Prisma {
     role?: $Enums.UserRole
     email: string
     password: string
-    avatar: string
     status?: $Enums.UserStatus
     bannedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -12744,7 +12723,6 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12757,7 +12735,6 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13282,7 +13259,6 @@ export namespace Prisma {
     role?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    avatar?: SortOrder
     status?: SortOrder
     bannedAt?: SortOrder
     deletedAt?: SortOrder
@@ -13296,7 +13272,6 @@ export namespace Prisma {
     role?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    avatar?: SortOrder
     status?: SortOrder
     bannedAt?: SortOrder
     deletedAt?: SortOrder
@@ -13310,7 +13285,6 @@ export namespace Prisma {
     role?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    avatar?: SortOrder
     status?: SortOrder
     bannedAt?: SortOrder
     deletedAt?: SortOrder
@@ -15027,7 +15001,6 @@ export namespace Prisma {
     role?: $Enums.UserRole
     email: string
     password: string
-    avatar: string
     status?: $Enums.UserStatus
     bannedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -15041,7 +15014,6 @@ export namespace Prisma {
     role?: $Enums.UserRole
     email: string
     password: string
-    avatar: string
     status?: $Enums.UserStatus
     bannedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -15209,7 +15181,6 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15222,7 +15193,6 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
