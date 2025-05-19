@@ -1,6 +1,6 @@
 import { getUser } from '@/actions/auth/getUser'
 
-import { DashboardSidebar } from '@/components/sidebar/dashboard-sidebar'
+import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { redirect } from 'next/navigation'
 
