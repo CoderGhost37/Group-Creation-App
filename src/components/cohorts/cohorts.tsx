@@ -20,11 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import CohortForm from './cohort-form'
+import { CohortForm } from './cohort-form'
 import type { Cohort } from './cohort.type'
-import DeleteCohortForm from './delete-cohort-form'
+import { DeleteCohortForm } from './delete-cohort-form'
 
-export default function Cohorts({ cohorts }: { cohorts: Cohort[] }) {
+export function Cohorts({ cohorts }: { cohorts: Cohort[] }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)

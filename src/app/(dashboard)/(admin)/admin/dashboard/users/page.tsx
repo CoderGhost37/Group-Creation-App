@@ -1,23 +1,23 @@
 import type { Metadata } from 'next'
 
-import { getAllCohorts } from '@/actions/cohorts/getAllCohorts'
-import { Cohorts } from '@/components/cohorts/cohorts'
+import { getAllUsers } from '@/actions/users/getAllUsers'
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
+import { Users } from '@/components/users/users'
 
 export const metadata: Metadata = {
-  title: 'Cohorts',
-  description: 'Cohorts Page',
+  title: 'Users',
+  description: 'Users Page',
 }
 
-export default async function AdminCohortPage() {
-  const cohorts = await getAllCohorts()
+export default async function AdminUsersPage() {
+  const users = await getAllUsers()
   return (
     <>
-      <DashboardNavbar items={[{ name: 'Cohorts', href: '/admin/dashboard/cohorts' }]} />
+      <DashboardNavbar items={[{ name: 'Users', href: '/admin/dashboard/users' }]} />
       <div className="w-full px-4 lg:px-6 py-4">
         <div className="flex min-h-[calc(100vh-32px-48px-24px)]">
           <div className="flex-grow overflow-x-auto overflow-hidden">
-            <Cohorts cohorts={cohorts} />
+            <Users users={users} />
           </div>
         </div>
       </div>

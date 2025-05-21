@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { deleteCohort } from '@/actions/cohorts/deleteCohort'
+import { deleteUser } from '@/actions/users/deleteUser'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -13,20 +13,20 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { toast } from 'sonner'
-import type { Cohort } from './cohort.type'
+import type { User } from './user.type'
 
-interface DeleteCohortFormProps {
-  cohort: Cohort
+interface DeleteUserFormProps {
+  user: User
   isOpen: boolean
   onClose: () => void
 }
 
-export function DeleteCohortForm({ isOpen, cohort, onClose }: DeleteCohortFormProps) {
+export function DeleteUserForm({ isOpen, user, onClose }: DeleteUserFormProps) {
   const [isPending, startTransition] = React.useTransition()
 
   const handleDelete = () => {
     startTransition(async () => {
-      deleteCohort(cohort.id).then((data) => {
+      deleteUser(user.id).then((data) => {
         if (data.success) {
           toast.success(data.message)
           onClose()
@@ -41,14 +41,14 @@ export function DeleteCohortForm({ isOpen, cohort, onClose }: DeleteCohortFormPr
     <Dialog open={isOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Delete Cohort</DialogTitle>
+          <DialogTitle>Delete User</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this cohort? This action cannot be undone.
+            Are you sure you want to delete this user? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <div className="p-4 border rounded">
-          <p className="font-medium">{cohort.name}</p>
-          <p className="text-sm text-muted-foreground">{cohort.description}</p>
+          <p className="font-medium">{user.name}</p>
+          <p className="text-sm text-muted-foreground">{user.email}</p>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>

@@ -19,7 +19,7 @@ export async function createUser(name: string, email: string) {
     const randomPassword = generateRandomPassword()
     const hashedPassword = await bcrypt.hash(randomPassword, 10)
 
-    await db.user.create({
+    const newUser = await db.user.create({
       data: {
         name,
         email,
@@ -27,6 +27,9 @@ export async function createUser(name: string, email: string) {
         student: {
           create: {},
         },
+      },
+      include: {
+        student: true,
       },
     })
 
@@ -121,6 +124,7 @@ export async function createUser(name: string, email: string) {
     return {
       success: true,
       message: 'User created successfully',
+      user: newUser,
     }
   } catch (error) {
     console.error('Error creating user:', error)

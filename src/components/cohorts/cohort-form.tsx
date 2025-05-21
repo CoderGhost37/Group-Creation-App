@@ -41,7 +41,7 @@ interface CohortFormProps {
   onClose: () => void
 }
 
-export default function CohortForm({ cohort, isOpen, onClose }: CohortFormProps) {
+export function CohortForm({ cohort, isOpen, onClose }: CohortFormProps) {
   const [isPending, startTransition] = React.useTransition()
   const form = useForm<z.infer<typeof CohortSchema>>({
     resolver: zodResolver(CohortSchema),
