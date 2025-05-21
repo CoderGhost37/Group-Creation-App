@@ -1,9 +1,11 @@
 'use client'
 
+import type { UserStatus } from '@/generated/prisma'
 import { FileUp, MoreHorizontal, Search } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -23,6 +25,19 @@ import {
 import { DeleteUserForm } from './delete-user'
 import { ImportUsersFromCSV } from './import-users-from-csv'
 import type { User } from './user.type'
+
+const getStatusBadge = (status: UserStatus) => {
+  switch (status) {
+    case 'ACTIVE':
+      return <Badge className="bg-green-100 text-green-800">Active</Badge>
+    case 'BANNED':
+      return <Badge className="bg-purple-100 text-purple-800">Banned</Badge>
+    case 'DELETED':
+      return <Badge className="bg-red-100 text-red-800">Deleted</Badge>
+    default:
+      return <Badge className="bg-blue-100 text-blue-800">{status}</Badge>
+  }
+}
 
 export function Users({ users }: { users: User[] }) {
   const [searchQuery, setSearchQuery] = useState('')
@@ -70,6 +85,7 @@ export function Users({ users }: { users: User[] }) {
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead className="hidden lg:table-cell">Cohorts</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="w-[60px]" />
             </TableRow>
           </TableHeader>
@@ -109,6 +125,7 @@ export function Users({ users }: { users: User[] }) {
                       <span className="text-muted-foreground">None</span>
                     )}
                   </TableCell>
+                  <TableCell>{getStatusBadge(user.status)}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

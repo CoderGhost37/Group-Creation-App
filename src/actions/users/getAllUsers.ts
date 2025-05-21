@@ -10,7 +10,6 @@ export const getAllUsers = unstable_cache(
       const users = await db.user.findMany({
         where: {
           role: UserRole.USER,
-          status: 'ACTIVE',
         },
         select: {
           id: true,
