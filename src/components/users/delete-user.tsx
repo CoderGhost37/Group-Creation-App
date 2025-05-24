@@ -1,8 +1,10 @@
 'use client'
 
 import React from 'react'
+import { toast } from 'sonner'
 
 import { deleteUser } from '@/actions/users/deleteUser'
+import { UserAvatar } from '@/components/avatar'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,11 +14,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { toast } from 'sonner'
-import type { User } from './user.type'
 
 interface DeleteUserFormProps {
-  user: User
+  user: {
+    id: string
+    name: string
+    email: string
+  }
   isOpen: boolean
   onClose: () => void
 }
@@ -47,8 +51,13 @@ export function DeleteUserForm({ isOpen, user, onClose }: DeleteUserFormProps) {
           </DialogDescription>
         </DialogHeader>
         <div className="p-4 border rounded">
-          <p className="font-medium">{user.name}</p>
-          <p className="text-sm text-muted-foreground">{user.email}</p>
+          <div className="flex items-center space-x-4">
+            <UserAvatar name={user.name} size="30" />
+            <div>
+              <p className="font-medium">{user.name}</p>
+              <p className="text-sm text-muted-foreground">{user.email}</p>
+            </div>
+          </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>

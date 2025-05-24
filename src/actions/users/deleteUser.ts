@@ -19,6 +19,7 @@ export async function deleteUser(userId: string) {
       },
       data: {
         status: 'DELETED',
+        bannedAt: null,
         deletedAt: new Date(),
       },
     })

@@ -17,7 +17,7 @@ export const getAllCohorts = unstable_cache(
       return cohorts
     } catch (error) {
       console.error('Error fetching cohorts:', error)
-      throw new Error('Failed to fetch cohorts')
+      return []
     }
   },
   ['cohorts'],

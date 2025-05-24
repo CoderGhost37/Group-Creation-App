@@ -61,9 +61,9 @@ model GroupJoinRequest {
 }
 
 model GroupLog {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  id      String       @id @default(auto()) @map("_id") @db.ObjectId
   content String
-  type    LogType
+  type    GroupLogType
 
   groupId String @map("group_id") @db.ObjectId
   group   Group? @relation(fields: [groupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -91,6 +91,7 @@ model Student {
   studentLogs StudentLog[]
 
   linkedIn String? @map("linked_in")
+  peerlist String?
   github   String?
   twitter  String?
   website  String?
@@ -123,8 +124,10 @@ model StudentCohort {
 }
 
 model StudentLog {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId
-  log String
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  action  String
+  details String?
+  type    LogType
 
   studentId String   @map("student_id") @db.ObjectId
   student   Student? @relation(fields: [studentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -155,9 +158,27 @@ enum GroupStatus {
   DELETED
 }
 
-enum LogType {
+enum GroupLogType {
   AUDIT
   ANNOUNCEMENT
+}
+
+enum LogType {
+  ACCOUNT_CREATED
+  ACCOUNT_UPDATED
+  ACCOUNT_DELETED
+  ACCOUNT_BANNED
+  ACCOUNT_UNBANNED
+  JOIN_COHORT
+  CREATE_GROUP
+  DELETE_GROUP
+  JOIN_GROUP
+  LEAVE_GROUP
+  SEND_GROUP_JOIN_REQUEST
+  GROUP_JOIN_REQUEST_ACCEPTED
+  GROUP_JOIN_REQUEST_REJECTED
+  ACCEPTED_GROUP_JOIN_REQUEST
+  REJECTED_GROUP_JOIN_REQUEST
 }
 
 enum UserRole {

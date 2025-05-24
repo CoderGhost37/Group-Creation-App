@@ -72,9 +72,30 @@ export namespace $Enums {
 export type GroupStatus = (typeof GroupStatus)[keyof typeof GroupStatus]
 
 
-export const LogType: {
+export const GroupLogType: {
   AUDIT: 'AUDIT',
   ANNOUNCEMENT: 'ANNOUNCEMENT'
+};
+
+export type GroupLogType = (typeof GroupLogType)[keyof typeof GroupLogType]
+
+
+export const LogType: {
+  ACCOUNT_CREATED: 'ACCOUNT_CREATED',
+  ACCOUNT_UPDATED: 'ACCOUNT_UPDATED',
+  ACCOUNT_DELETED: 'ACCOUNT_DELETED',
+  ACCOUNT_BANNED: 'ACCOUNT_BANNED',
+  ACCOUNT_UNBANNED: 'ACCOUNT_UNBANNED',
+  JOIN_COHORT: 'JOIN_COHORT',
+  CREATE_GROUP: 'CREATE_GROUP',
+  DELETE_GROUP: 'DELETE_GROUP',
+  JOIN_GROUP: 'JOIN_GROUP',
+  LEAVE_GROUP: 'LEAVE_GROUP',
+  SEND_GROUP_JOIN_REQUEST: 'SEND_GROUP_JOIN_REQUEST',
+  GROUP_JOIN_REQUEST_ACCEPTED: 'GROUP_JOIN_REQUEST_ACCEPTED',
+  GROUP_JOIN_REQUEST_REJECTED: 'GROUP_JOIN_REQUEST_REJECTED',
+  ACCEPTED_GROUP_JOIN_REQUEST: 'ACCEPTED_GROUP_JOIN_REQUEST',
+  REJECTED_GROUP_JOIN_REQUEST: 'REJECTED_GROUP_JOIN_REQUEST'
 };
 
 export type LogType = (typeof LogType)[keyof typeof LogType]
@@ -111,6 +132,10 @@ export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
 export type GroupStatus = $Enums.GroupStatus
 
 export const GroupStatus: typeof $Enums.GroupStatus
+
+export type GroupLogType = $Enums.GroupLogType
+
+export const GroupLogType: typeof $Enums.GroupLogType
 
 export type LogType = $Enums.LogType
 
@@ -5037,7 +5062,7 @@ export namespace Prisma {
   export type GroupLogMinAggregateOutputType = {
     id: string | null
     content: string | null
-    type: $Enums.LogType | null
+    type: $Enums.GroupLogType | null
     groupId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5046,7 +5071,7 @@ export namespace Prisma {
   export type GroupLogMaxAggregateOutputType = {
     id: string | null
     content: string | null
-    type: $Enums.LogType | null
+    type: $Enums.GroupLogType | null
     groupId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5166,7 +5191,7 @@ export namespace Prisma {
   export type GroupLogGroupByOutputType = {
     id: string
     content: string
-    type: $Enums.LogType
+    type: $Enums.GroupLogType
     groupId: string
     createdAt: Date
     updatedAt: Date
@@ -5223,7 +5248,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       content: string
-      type: $Enums.LogType
+      type: $Enums.GroupLogType
       groupId: string
       createdAt: Date
       updatedAt: Date
@@ -5622,7 +5647,7 @@ export namespace Prisma {
   interface GroupLogFieldRefs {
     readonly id: FieldRef<"GroupLog", 'String'>
     readonly content: FieldRef<"GroupLog", 'String'>
-    readonly type: FieldRef<"GroupLog", 'LogType'>
+    readonly type: FieldRef<"GroupLog", 'GroupLogType'>
     readonly groupId: FieldRef<"GroupLog", 'String'>
     readonly createdAt: FieldRef<"GroupLog", 'DateTime'>
     readonly updatedAt: FieldRef<"GroupLog", 'DateTime'>
@@ -7030,6 +7055,7 @@ export namespace Prisma {
     id: string | null
     bio: string | null
     linkedIn: string | null
+    peerlist: string | null
     github: string | null
     twitter: string | null
     website: string | null
@@ -7042,6 +7068,7 @@ export namespace Prisma {
     id: string | null
     bio: string | null
     linkedIn: string | null
+    peerlist: string | null
     github: string | null
     twitter: string | null
     website: string | null
@@ -7054,6 +7081,7 @@ export namespace Prisma {
     id: number
     bio: number
     linkedIn: number
+    peerlist: number
     github: number
     twitter: number
     website: number
@@ -7068,6 +7096,7 @@ export namespace Prisma {
     id?: true
     bio?: true
     linkedIn?: true
+    peerlist?: true
     github?: true
     twitter?: true
     website?: true
@@ -7080,6 +7109,7 @@ export namespace Prisma {
     id?: true
     bio?: true
     linkedIn?: true
+    peerlist?: true
     github?: true
     twitter?: true
     website?: true
@@ -7092,6 +7122,7 @@ export namespace Prisma {
     id?: true
     bio?: true
     linkedIn?: true
+    peerlist?: true
     github?: true
     twitter?: true
     website?: true
@@ -7177,6 +7208,7 @@ export namespace Prisma {
     id: string
     bio: string | null
     linkedIn: string | null
+    peerlist: string | null
     github: string | null
     twitter: string | null
     website: string | null
@@ -7206,6 +7238,7 @@ export namespace Prisma {
     id?: boolean
     bio?: boolean
     linkedIn?: boolean
+    peerlist?: boolean
     github?: boolean
     twitter?: boolean
     website?: boolean
@@ -7227,6 +7260,7 @@ export namespace Prisma {
     id?: boolean
     bio?: boolean
     linkedIn?: boolean
+    peerlist?: boolean
     github?: boolean
     twitter?: boolean
     website?: boolean
@@ -7235,7 +7269,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bio" | "linkedIn" | "github" | "twitter" | "website" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bio" | "linkedIn" | "peerlist" | "github" | "twitter" | "website" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentLogs?: boolean | Student$studentLogsArgs<ExtArgs>
     user?: boolean | Student$userArgs<ExtArgs>
@@ -7260,6 +7294,7 @@ export namespace Prisma {
       id: string
       bio: string | null
       linkedIn: string | null
+      peerlist: string | null
       github: string | null
       twitter: string | null
       website: string | null
@@ -7667,6 +7702,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Student", 'String'>
     readonly bio: FieldRef<"Student", 'String'>
     readonly linkedIn: FieldRef<"Student", 'String'>
+    readonly peerlist: FieldRef<"Student", 'String'>
     readonly github: FieldRef<"Student", 'String'>
     readonly twitter: FieldRef<"Student", 'String'>
     readonly website: FieldRef<"Student", 'String'>
@@ -9195,7 +9231,9 @@ export namespace Prisma {
 
   export type StudentLogMinAggregateOutputType = {
     id: string | null
-    log: string | null
+    action: string | null
+    details: string | null
+    type: $Enums.LogType | null
     studentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -9203,7 +9241,9 @@ export namespace Prisma {
 
   export type StudentLogMaxAggregateOutputType = {
     id: string | null
-    log: string | null
+    action: string | null
+    details: string | null
+    type: $Enums.LogType | null
     studentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -9211,7 +9251,9 @@ export namespace Prisma {
 
   export type StudentLogCountAggregateOutputType = {
     id: number
-    log: number
+    action: number
+    details: number
+    type: number
     studentId: number
     createdAt: number
     updatedAt: number
@@ -9221,7 +9263,9 @@ export namespace Prisma {
 
   export type StudentLogMinAggregateInputType = {
     id?: true
-    log?: true
+    action?: true
+    details?: true
+    type?: true
     studentId?: true
     createdAt?: true
     updatedAt?: true
@@ -9229,7 +9273,9 @@ export namespace Prisma {
 
   export type StudentLogMaxAggregateInputType = {
     id?: true
-    log?: true
+    action?: true
+    details?: true
+    type?: true
     studentId?: true
     createdAt?: true
     updatedAt?: true
@@ -9237,7 +9283,9 @@ export namespace Prisma {
 
   export type StudentLogCountAggregateInputType = {
     id?: true
-    log?: true
+    action?: true
+    details?: true
+    type?: true
     studentId?: true
     createdAt?: true
     updatedAt?: true
@@ -9318,7 +9366,9 @@ export namespace Prisma {
 
   export type StudentLogGroupByOutputType = {
     id: string
-    log: string
+    action: string
+    details: string | null
+    type: $Enums.LogType
     studentId: string
     createdAt: Date
     updatedAt: Date
@@ -9343,7 +9393,9 @@ export namespace Prisma {
 
   export type StudentLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    log?: boolean
+    action?: boolean
+    details?: boolean
+    type?: boolean
     studentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9354,13 +9406,15 @@ export namespace Prisma {
 
   export type StudentLogSelectScalar = {
     id?: boolean
-    log?: boolean
+    action?: boolean
+    details?: boolean
+    type?: boolean
     studentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StudentLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "log" | "studentId" | "createdAt" | "updatedAt", ExtArgs["result"]["studentLog"]>
+  export type StudentLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "action" | "details" | "type" | "studentId" | "createdAt" | "updatedAt", ExtArgs["result"]["studentLog"]>
   export type StudentLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentLog$studentArgs<ExtArgs>
   }
@@ -9372,7 +9426,9 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      log: string
+      action: string
+      details: string | null
+      type: $Enums.LogType
       studentId: string
       createdAt: Date
       updatedAt: Date
@@ -9770,7 +9826,9 @@ export namespace Prisma {
    */
   interface StudentLogFieldRefs {
     readonly id: FieldRef<"StudentLog", 'String'>
-    readonly log: FieldRef<"StudentLog", 'String'>
+    readonly action: FieldRef<"StudentLog", 'String'>
+    readonly details: FieldRef<"StudentLog", 'String'>
+    readonly type: FieldRef<"StudentLog", 'LogType'>
     readonly studentId: FieldRef<"StudentLog", 'String'>
     readonly createdAt: FieldRef<"StudentLog", 'DateTime'>
     readonly updatedAt: FieldRef<"StudentLog", 'DateTime'>
@@ -11306,6 +11364,7 @@ export namespace Prisma {
     id: 'id',
     bio: 'bio',
     linkedIn: 'linkedIn',
+    peerlist: 'peerlist',
     github: 'github',
     twitter: 'twitter',
     website: 'website',
@@ -11330,7 +11389,9 @@ export namespace Prisma {
 
   export const StudentLogScalarFieldEnum: {
     id: 'id',
-    log: 'log',
+    action: 'action',
+    details: 'details',
+    type: 'type',
     studentId: 'studentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -11429,6 +11490,20 @@ export namespace Prisma {
    * Reference to a field of type 'RequestStatus[]'
    */
   export type ListEnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'GroupLogType'
+   */
+  export type EnumGroupLogTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupLogType'>
+    
+
+
+  /**
+   * Reference to a field of type 'GroupLogType[]'
+   */
+  export type ListEnumGroupLogTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupLogType[]'>
     
 
 
@@ -11720,7 +11795,7 @@ export namespace Prisma {
     NOT?: GroupLogWhereInput | GroupLogWhereInput[]
     id?: StringFilter<"GroupLog"> | string
     content?: StringFilter<"GroupLog"> | string
-    type?: EnumLogTypeFilter<"GroupLog"> | $Enums.LogType
+    type?: EnumGroupLogTypeFilter<"GroupLog"> | $Enums.GroupLogType
     groupId?: StringFilter<"GroupLog"> | string
     createdAt?: DateTimeFilter<"GroupLog"> | Date | string
     updatedAt?: DateTimeFilter<"GroupLog"> | Date | string
@@ -11743,7 +11818,7 @@ export namespace Prisma {
     OR?: GroupLogWhereInput[]
     NOT?: GroupLogWhereInput | GroupLogWhereInput[]
     content?: StringFilter<"GroupLog"> | string
-    type?: EnumLogTypeFilter<"GroupLog"> | $Enums.LogType
+    type?: EnumGroupLogTypeFilter<"GroupLog"> | $Enums.GroupLogType
     groupId?: StringFilter<"GroupLog"> | string
     createdAt?: DateTimeFilter<"GroupLog"> | Date | string
     updatedAt?: DateTimeFilter<"GroupLog"> | Date | string
@@ -11768,7 +11843,7 @@ export namespace Prisma {
     NOT?: GroupLogScalarWhereWithAggregatesInput | GroupLogScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GroupLog"> | string
     content?: StringWithAggregatesFilter<"GroupLog"> | string
-    type?: EnumLogTypeWithAggregatesFilter<"GroupLog"> | $Enums.LogType
+    type?: EnumGroupLogTypeWithAggregatesFilter<"GroupLog"> | $Enums.GroupLogType
     groupId?: StringWithAggregatesFilter<"GroupLog"> | string
     createdAt?: DateTimeWithAggregatesFilter<"GroupLog"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"GroupLog"> | Date | string
@@ -11839,6 +11914,7 @@ export namespace Prisma {
     id?: StringFilter<"Student"> | string
     bio?: StringNullableFilter<"Student"> | string | null
     linkedIn?: StringNullableFilter<"Student"> | string | null
+    peerlist?: StringNullableFilter<"Student"> | string | null
     github?: StringNullableFilter<"Student"> | string | null
     twitter?: StringNullableFilter<"Student"> | string | null
     website?: StringNullableFilter<"Student"> | string | null
@@ -11857,6 +11933,7 @@ export namespace Prisma {
     id?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
+    peerlist?: SortOrder
     github?: SortOrder
     twitter?: SortOrder
     website?: SortOrder
@@ -11879,6 +11956,7 @@ export namespace Prisma {
     NOT?: StudentWhereInput | StudentWhereInput[]
     bio?: StringNullableFilter<"Student"> | string | null
     linkedIn?: StringNullableFilter<"Student"> | string | null
+    peerlist?: StringNullableFilter<"Student"> | string | null
     github?: StringNullableFilter<"Student"> | string | null
     twitter?: StringNullableFilter<"Student"> | string | null
     website?: StringNullableFilter<"Student"> | string | null
@@ -11896,6 +11974,7 @@ export namespace Prisma {
     id?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
+    peerlist?: SortOrder
     github?: SortOrder
     twitter?: SortOrder
     website?: SortOrder
@@ -11914,6 +11993,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Student"> | string
     bio?: StringNullableWithAggregatesFilter<"Student"> | string | null
     linkedIn?: StringNullableWithAggregatesFilter<"Student"> | string | null
+    peerlist?: StringNullableWithAggregatesFilter<"Student"> | string | null
     github?: StringNullableWithAggregatesFilter<"Student"> | string | null
     twitter?: StringNullableWithAggregatesFilter<"Student"> | string | null
     website?: StringNullableWithAggregatesFilter<"Student"> | string | null
@@ -11986,7 +12066,9 @@ export namespace Prisma {
     OR?: StudentLogWhereInput[]
     NOT?: StudentLogWhereInput | StudentLogWhereInput[]
     id?: StringFilter<"StudentLog"> | string
-    log?: StringFilter<"StudentLog"> | string
+    action?: StringFilter<"StudentLog"> | string
+    details?: StringNullableFilter<"StudentLog"> | string | null
+    type?: EnumLogTypeFilter<"StudentLog"> | $Enums.LogType
     studentId?: StringFilter<"StudentLog"> | string
     createdAt?: DateTimeFilter<"StudentLog"> | Date | string
     updatedAt?: DateTimeFilter<"StudentLog"> | Date | string
@@ -11995,7 +12077,9 @@ export namespace Prisma {
 
   export type StudentLogOrderByWithRelationInput = {
     id?: SortOrder
-    log?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    type?: SortOrder
     studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12007,7 +12091,9 @@ export namespace Prisma {
     AND?: StudentLogWhereInput | StudentLogWhereInput[]
     OR?: StudentLogWhereInput[]
     NOT?: StudentLogWhereInput | StudentLogWhereInput[]
-    log?: StringFilter<"StudentLog"> | string
+    action?: StringFilter<"StudentLog"> | string
+    details?: StringNullableFilter<"StudentLog"> | string | null
+    type?: EnumLogTypeFilter<"StudentLog"> | $Enums.LogType
     studentId?: StringFilter<"StudentLog"> | string
     createdAt?: DateTimeFilter<"StudentLog"> | Date | string
     updatedAt?: DateTimeFilter<"StudentLog"> | Date | string
@@ -12016,7 +12102,9 @@ export namespace Prisma {
 
   export type StudentLogOrderByWithAggregationInput = {
     id?: SortOrder
-    log?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    type?: SortOrder
     studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12030,7 +12118,9 @@ export namespace Prisma {
     OR?: StudentLogScalarWhereWithAggregatesInput[]
     NOT?: StudentLogScalarWhereWithAggregatesInput | StudentLogScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"StudentLog"> | string
-    log?: StringWithAggregatesFilter<"StudentLog"> | string
+    action?: StringWithAggregatesFilter<"StudentLog"> | string
+    details?: StringNullableWithAggregatesFilter<"StudentLog"> | string | null
+    type?: EnumLogTypeWithAggregatesFilter<"StudentLog"> | $Enums.LogType
     studentId?: StringWithAggregatesFilter<"StudentLog"> | string
     createdAt?: DateTimeWithAggregatesFilter<"StudentLog"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"StudentLog"> | Date | string
@@ -12347,7 +12437,7 @@ export namespace Prisma {
   export type GroupLogCreateInput = {
     id?: string
     content: string
-    type: $Enums.LogType
+    type: $Enums.GroupLogType
     createdAt?: Date | string
     updatedAt?: Date | string
     group?: GroupCreateNestedOneWithoutGroupLogsInput
@@ -12356,7 +12446,7 @@ export namespace Prisma {
   export type GroupLogUncheckedCreateInput = {
     id?: string
     content: string
-    type: $Enums.LogType
+    type: $Enums.GroupLogType
     groupId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12364,7 +12454,7 @@ export namespace Prisma {
 
   export type GroupLogUpdateInput = {
     content?: StringFieldUpdateOperationsInput | string
-    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
+    type?: EnumGroupLogTypeFieldUpdateOperationsInput | $Enums.GroupLogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group?: GroupUpdateOneWithoutGroupLogsNestedInput
@@ -12372,7 +12462,7 @@ export namespace Prisma {
 
   export type GroupLogUncheckedUpdateInput = {
     content?: StringFieldUpdateOperationsInput | string
-    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
+    type?: EnumGroupLogTypeFieldUpdateOperationsInput | $Enums.GroupLogType
     groupId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12381,7 +12471,7 @@ export namespace Prisma {
   export type GroupLogCreateManyInput = {
     id?: string
     content: string
-    type: $Enums.LogType
+    type: $Enums.GroupLogType
     groupId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12389,14 +12479,14 @@ export namespace Prisma {
 
   export type GroupLogUpdateManyMutationInput = {
     content?: StringFieldUpdateOperationsInput | string
-    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
+    type?: EnumGroupLogTypeFieldUpdateOperationsInput | $Enums.GroupLogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GroupLogUncheckedUpdateManyInput = {
     content?: StringFieldUpdateOperationsInput | string
-    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
+    type?: EnumGroupLogTypeFieldUpdateOperationsInput | $Enums.GroupLogType
     groupId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12456,6 +12546,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -12473,6 +12564,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -12489,6 +12581,7 @@ export namespace Prisma {
   export type StudentUpdateInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12505,6 +12598,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12522,6 +12616,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -12533,6 +12628,7 @@ export namespace Prisma {
   export type StudentUpdateManyMutationInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12543,6 +12639,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateManyInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12603,7 +12700,9 @@ export namespace Prisma {
 
   export type StudentLogCreateInput = {
     id?: string
-    log: string
+    action: string
+    details?: string | null
+    type: $Enums.LogType
     createdAt?: Date | string
     updatedAt?: Date | string
     student?: StudentCreateNestedOneWithoutStudentLogsInput
@@ -12611,21 +12710,27 @@ export namespace Prisma {
 
   export type StudentLogUncheckedCreateInput = {
     id?: string
-    log: string
+    action: string
+    details?: string | null
+    type: $Enums.LogType
     studentId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type StudentLogUpdateInput = {
-    log?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneWithoutStudentLogsNestedInput
   }
 
   export type StudentLogUncheckedUpdateInput = {
-    log?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
     studentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12633,20 +12738,26 @@ export namespace Prisma {
 
   export type StudentLogCreateManyInput = {
     id?: string
-    log: string
+    action: string
+    details?: string | null
+    type: $Enums.LogType
     studentId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type StudentLogUpdateManyMutationInput = {
-    log?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentLogUncheckedUpdateManyInput = {
-    log?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
     studentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13058,11 +13169,11 @@ export namespace Prisma {
     _max?: NestedEnumRequestStatusFilter<$PrismaModel>
   }
 
-  export type EnumLogTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.LogType | EnumLogTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumLogTypeFilter<$PrismaModel> | $Enums.LogType
+  export type EnumGroupLogTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.GroupLogType | EnumGroupLogTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGroupLogTypeFilter<$PrismaModel> | $Enums.GroupLogType
   }
 
   export type GroupLogCountOrderByAggregateInput = {
@@ -13092,14 +13203,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type EnumLogTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.LogType | EnumLogTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumLogTypeWithAggregatesFilter<$PrismaModel> | $Enums.LogType
+  export type EnumGroupLogTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GroupLogType | EnumGroupLogTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGroupLogTypeWithAggregatesFilter<$PrismaModel> | $Enums.GroupLogType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumLogTypeFilter<$PrismaModel>
-    _max?: NestedEnumLogTypeFilter<$PrismaModel>
+    _min?: NestedEnumGroupLogTypeFilter<$PrismaModel>
+    _max?: NestedEnumGroupLogTypeFilter<$PrismaModel>
   }
 
   export type StudentScalarRelationFilter = {
@@ -13155,6 +13266,7 @@ export namespace Prisma {
     id?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
+    peerlist?: SortOrder
     github?: SortOrder
     twitter?: SortOrder
     website?: SortOrder
@@ -13167,6 +13279,7 @@ export namespace Prisma {
     id?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
+    peerlist?: SortOrder
     github?: SortOrder
     twitter?: SortOrder
     website?: SortOrder
@@ -13179,6 +13292,7 @@ export namespace Prisma {
     id?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
+    peerlist?: SortOrder
     github?: SortOrder
     twitter?: SortOrder
     website?: SortOrder
@@ -13221,9 +13335,18 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumLogTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogType | EnumLogTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogTypeFilter<$PrismaModel> | $Enums.LogType
+  }
+
   export type StudentLogCountOrderByAggregateInput = {
     id?: SortOrder
-    log?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    type?: SortOrder
     studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13231,7 +13354,9 @@ export namespace Prisma {
 
   export type StudentLogMaxOrderByAggregateInput = {
     id?: SortOrder
-    log?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    type?: SortOrder
     studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13239,10 +13364,22 @@ export namespace Prisma {
 
   export type StudentLogMinOrderByAggregateInput = {
     id?: SortOrder
-    log?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    type?: SortOrder
     studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumLogTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogType | EnumLogTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogTypeWithAggregatesFilter<$PrismaModel> | $Enums.LogType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLogTypeFilter<$PrismaModel>
+    _max?: NestedEnumLogTypeFilter<$PrismaModel>
   }
 
   export type EnumUserRoleFilter<$PrismaModel = never> = {
@@ -13624,8 +13761,8 @@ export namespace Prisma {
     connect?: GroupWhereUniqueInput
   }
 
-  export type EnumLogTypeFieldUpdateOperationsInput = {
-    set?: $Enums.LogType
+  export type EnumGroupLogTypeFieldUpdateOperationsInput = {
+    set?: $Enums.GroupLogType
   }
 
   export type GroupUpdateOneWithoutGroupLogsNestedInput = {
@@ -13926,6 +14063,10 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput
   }
 
+  export type EnumLogTypeFieldUpdateOperationsInput = {
+    set?: $Enums.LogType
+  }
+
   export type StudentUpdateOneWithoutStudentLogsNestedInput = {
     create?: XOR<StudentCreateWithoutStudentLogsInput, StudentUncheckedCreateWithoutStudentLogsInput>
     connectOrCreate?: StudentCreateOrConnectWithoutStudentLogsInput
@@ -14149,6 +14290,23 @@ export namespace Prisma {
     _max?: NestedEnumRequestStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumGroupLogTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.GroupLogType | EnumGroupLogTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGroupLogTypeFilter<$PrismaModel> | $Enums.GroupLogType
+  }
+
+  export type NestedEnumGroupLogTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GroupLogType | EnumGroupLogTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GroupLogType[] | ListEnumGroupLogTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGroupLogTypeWithAggregatesFilter<$PrismaModel> | $Enums.GroupLogType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGroupLogTypeFilter<$PrismaModel>
+    _max?: NestedEnumGroupLogTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumLogTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.LogType | EnumLogTypeFieldRefInput<$PrismaModel>
     in?: $Enums.LogType[] | ListEnumLogTypeFieldRefInput<$PrismaModel>
@@ -14321,7 +14479,7 @@ export namespace Prisma {
   export type GroupLogCreateWithoutGroupInput = {
     id?: string
     content: string
-    type: $Enums.LogType
+    type: $Enums.GroupLogType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14329,7 +14487,7 @@ export namespace Prisma {
   export type GroupLogUncheckedCreateWithoutGroupInput = {
     id?: string
     content: string
-    type: $Enums.LogType
+    type: $Enums.GroupLogType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14347,6 +14505,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -14363,6 +14522,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -14479,7 +14639,7 @@ export namespace Prisma {
     NOT?: GroupLogScalarWhereInput | GroupLogScalarWhereInput[]
     id?: StringFilter<"GroupLog"> | string
     content?: StringFilter<"GroupLog"> | string
-    type?: EnumLogTypeFilter<"GroupLog"> | $Enums.LogType
+    type?: EnumGroupLogTypeFilter<"GroupLog"> | $Enums.GroupLogType
     groupId?: StringFilter<"GroupLog"> | string
     createdAt?: DateTimeFilter<"GroupLog"> | Date | string
     updatedAt?: DateTimeFilter<"GroupLog"> | Date | string
@@ -14499,6 +14659,7 @@ export namespace Prisma {
   export type StudentUpdateWithoutAdminOfGroupsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14514,6 +14675,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateWithoutAdminOfGroupsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14616,6 +14778,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -14632,6 +14795,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -14696,6 +14860,7 @@ export namespace Prisma {
   export type StudentUpdateWithoutGroupJoinRequestsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14711,6 +14876,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateWithoutGroupJoinRequestsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14834,6 +15000,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -14850,6 +15017,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -14914,6 +15082,7 @@ export namespace Prisma {
   export type StudentUpdateWithoutGroupsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14929,6 +15098,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateWithoutGroupsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14980,14 +15150,18 @@ export namespace Prisma {
 
   export type StudentLogCreateWithoutStudentInput = {
     id?: string
-    log: string
+    action: string
+    details?: string | null
+    type: $Enums.LogType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type StudentLogUncheckedCreateWithoutStudentInput = {
     id?: string
-    log: string
+    action: string
+    details?: string | null
+    type: $Enums.LogType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15165,7 +15339,9 @@ export namespace Prisma {
     OR?: StudentLogScalarWhereInput[]
     NOT?: StudentLogScalarWhereInput | StudentLogScalarWhereInput[]
     id?: StringFilter<"StudentLog"> | string
-    log?: StringFilter<"StudentLog"> | string
+    action?: StringFilter<"StudentLog"> | string
+    details?: StringNullableFilter<"StudentLog"> | string | null
+    type?: EnumLogTypeFilter<"StudentLog"> | $Enums.LogType
     studentId?: StringFilter<"StudentLog"> | string
     createdAt?: DateTimeFilter<"StudentLog"> | Date | string
     updatedAt?: DateTimeFilter<"StudentLog"> | Date | string
@@ -15274,6 +15450,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -15290,6 +15467,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -15346,6 +15524,7 @@ export namespace Prisma {
   export type StudentUpdateWithoutCohortsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15361,6 +15540,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateWithoutCohortsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15406,6 +15586,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -15422,6 +15603,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -15453,6 +15635,7 @@ export namespace Prisma {
   export type StudentUpdateWithoutStudentLogsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15468,6 +15651,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateWithoutStudentLogsInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15484,6 +15668,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -15500,6 +15685,7 @@ export namespace Prisma {
     id?: string
     bio?: string | null
     linkedIn?: string | null
+    peerlist?: string | null
     github?: string | null
     twitter?: string | null
     website?: string | null
@@ -15531,6 +15717,7 @@ export namespace Prisma {
   export type StudentUpdateWithoutUserInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15546,6 +15733,7 @@ export namespace Prisma {
   export type StudentUncheckedUpdateWithoutUserInput = {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    peerlist?: NullableStringFieldUpdateOperationsInput | string | null
     github?: NullableStringFieldUpdateOperationsInput | string | null
     twitter?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15633,7 +15821,7 @@ export namespace Prisma {
   export type GroupLogCreateManyGroupInput = {
     id?: string
     content: string
-    type: $Enums.LogType
+    type: $Enums.GroupLogType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15657,21 +15845,21 @@ export namespace Prisma {
 
   export type GroupLogUpdateWithoutGroupInput = {
     content?: StringFieldUpdateOperationsInput | string
-    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
+    type?: EnumGroupLogTypeFieldUpdateOperationsInput | $Enums.GroupLogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GroupLogUncheckedUpdateWithoutGroupInput = {
     content?: StringFieldUpdateOperationsInput | string
-    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
+    type?: EnumGroupLogTypeFieldUpdateOperationsInput | $Enums.GroupLogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GroupLogUncheckedUpdateManyWithoutGroupInput = {
     content?: StringFieldUpdateOperationsInput | string
-    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
+    type?: EnumGroupLogTypeFieldUpdateOperationsInput | $Enums.GroupLogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15723,7 +15911,9 @@ export namespace Prisma {
 
   export type StudentLogCreateManyStudentInput = {
     id?: string
-    log: string
+    action: string
+    details?: string | null
+    type: $Enums.LogType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15764,19 +15954,25 @@ export namespace Prisma {
   }
 
   export type StudentLogUpdateWithoutStudentInput = {
-    log?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentLogUncheckedUpdateWithoutStudentInput = {
-    log?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentLogUncheckedUpdateManyWithoutStudentInput = {
-    log?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumLogTypeFieldUpdateOperationsInput | $Enums.LogType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -4,7 +4,7 @@ import { db } from '@/lib/prisma'
 import { revalidateTag } from 'next/cache'
 import { getUser } from '../auth/getUser'
 
-export async function banUser(userId: string, reason: string) {
+export async function unbanUser(userId: string) {
   const user = await getUser()
   if (!user) {
     throw new Error('User not authenticated')
@@ -18,8 +18,8 @@ export async function banUser(userId: string, reason: string) {
         id: userId,
       },
       data: {
-        status: 'BANNED',
-        bannedAt: new Date(),
+        status: 'ACTIVE',
+        bannedAt: null,
         deletedAt: null,
       },
       select: {
@@ -37,9 +37,8 @@ export async function banUser(userId: string, reason: string) {
 
     await db.studentLog.create({
       data: {
-        action: 'Account Banned by Admin',
-        details: reason,
-        type: 'ACCOUNT_BANNED',
+        action: 'Account UnBanned by Admin',
+        type: 'ACCOUNT_UNBANNED',
         student: {
           connect: {
             id: user.student.id,
@@ -51,13 +50,13 @@ export async function banUser(userId: string, reason: string) {
 
     return {
       success: true,
-      message: 'User banned successfully',
+      message: 'User unbanned successfully',
     }
   } catch (error) {
-    console.error('Error banning user:', error)
+    console.error('Error unbanning user:', error)
     return {
       success: false,
-      message: 'Failed to ban user',
+      message: 'Failed to unban user',
     }
   }
 }

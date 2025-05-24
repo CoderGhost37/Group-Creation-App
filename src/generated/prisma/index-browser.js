@@ -162,6 +162,7 @@ exports.Prisma.StudentScalarFieldEnum = {
   id: 'id',
   bio: 'bio',
   linkedIn: 'linkedIn',
+  peerlist: 'peerlist',
   github: 'github',
   twitter: 'twitter',
   website: 'website',
@@ -180,7 +181,9 @@ exports.Prisma.StudentCohortScalarFieldEnum = {
 
 exports.Prisma.StudentLogScalarFieldEnum = {
   id: 'id',
-  log: 'log',
+  action: 'action',
+  details: 'details',
+  type: 'type',
   studentId: 'studentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -220,9 +223,27 @@ exports.RequestStatus = exports.$Enums.RequestStatus = {
   REJECTED: 'REJECTED',
 }
 
-exports.LogType = exports.$Enums.LogType = {
+exports.GroupLogType = exports.$Enums.GroupLogType = {
   AUDIT: 'AUDIT',
   ANNOUNCEMENT: 'ANNOUNCEMENT',
+}
+
+exports.LogType = exports.$Enums.LogType = {
+  ACCOUNT_CREATED: 'ACCOUNT_CREATED',
+  ACCOUNT_UPDATED: 'ACCOUNT_UPDATED',
+  ACCOUNT_DELETED: 'ACCOUNT_DELETED',
+  ACCOUNT_BANNED: 'ACCOUNT_BANNED',
+  ACCOUNT_UNBANNED: 'ACCOUNT_UNBANNED',
+  JOIN_COHORT: 'JOIN_COHORT',
+  CREATE_GROUP: 'CREATE_GROUP',
+  DELETE_GROUP: 'DELETE_GROUP',
+  JOIN_GROUP: 'JOIN_GROUP',
+  LEAVE_GROUP: 'LEAVE_GROUP',
+  SEND_GROUP_JOIN_REQUEST: 'SEND_GROUP_JOIN_REQUEST',
+  GROUP_JOIN_REQUEST_ACCEPTED: 'GROUP_JOIN_REQUEST_ACCEPTED',
+  GROUP_JOIN_REQUEST_REJECTED: 'GROUP_JOIN_REQUEST_REJECTED',
+  ACCEPTED_GROUP_JOIN_REQUEST: 'ACCEPTED_GROUP_JOIN_REQUEST',
+  REJECTED_GROUP_JOIN_REQUEST: 'REJECTED_GROUP_JOIN_REQUEST',
 }
 
 exports.UserRole = exports.$Enums.UserRole = {
