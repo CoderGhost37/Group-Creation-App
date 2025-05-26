@@ -15,6 +15,8 @@ export const getUserCohortInfo = async (userId: string) => {
                   select: {
                     id: true,
                     name: true,
+                    description: true,
+                    startDate: true,
                   },
                 },
               },
@@ -33,6 +35,8 @@ export const getUserCohortInfo = async (userId: string) => {
       data: user.student.cohorts.map((sc) => ({
         id: sc.cohort.id,
         name: sc.cohort.name,
+        description: sc.cohort.description,
+        startDate: sc.cohort.startDate,
       })),
     }
   } catch (error) {
