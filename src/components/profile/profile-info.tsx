@@ -1,5 +1,6 @@
-import { Github, Globe, Linkedin, Twitter } from 'lucide-react'
+import { Github, Globe, Linkedin } from 'lucide-react'
 import Link from 'next/link'
+import { FaXTwitter } from 'react-icons/fa6'
 import { SiPeerlist } from 'react-icons/si'
 
 import { getUserProfileInfo } from '@/actions/profile/getUserProfileInfo'
@@ -61,7 +62,7 @@ export async function ProfileInfo({ userId }: { userId: string }) {
           )}
           {userProfile.twitter && (
             <div className="flex items-center space-x-2">
-              <Twitter className="h-4 w-4 text-muted-foreground" />
+              <FaXTwitter className="h-4 w-4 text-muted-foreground" />
               <Link
                 href={`https://twitter.com/${userProfile.twitter}`}
                 target="_blank"
