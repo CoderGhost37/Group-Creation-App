@@ -49,8 +49,7 @@ export const getUserGroupsInfo = async (userId: string) => {
           id: g.group.cohort?.id,
           name: g.group.cohort?.name,
         },
-        role: 'Admin',
-        // role: user.student?.adminOfGroups.some(ag => ag.id === g.group.id) ? 'Admin' : 'Member',
+        role: user.student?.adminOfGroups.some((ag) => ag.id === g.group.id) ? 'Admin' : 'Member',
         joinedAt: g.createdAt,
       })),
     }
