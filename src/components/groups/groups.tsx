@@ -2,6 +2,7 @@ import { getUserPendingRequestsCount } from '@/actions/request/getUserPendingReq
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '../ui/badge'
 import { CreateGroupForm } from './create-group-form'
+import { JoinedGroups } from './joined-groups'
 
 interface GroupsProps {
   userId: string
@@ -41,7 +42,9 @@ export async function Groups({ userId }: GroupsProps) {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="my-groups">My Groups</TabsContent>
+        <TabsContent value="my-groups">
+          <JoinedGroups />
+        </TabsContent>
         <TabsContent value="browse">Browse Groups</TabsContent>
         <TabsContent value="pending-requests">Pending Requests</TabsContent>
       </Tabs>

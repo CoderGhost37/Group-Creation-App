@@ -62,13 +62,20 @@ export async function createGroup(values: z.infer<typeof GroupSchema>) {
       }
     }
 
-    await db.group.create({
+    const newGroup = await db.group.create({
       data: {
         name,
         description,
         cohortId,
         adminId: student.id,
         status: 'OPEN',
+      },
+    })
+
+    await db.groupMember.create({
+      data: {
+        groupId: newGroup.id,
+        studentId: student.id,
       },
     })
     revalidateTag('groups')
