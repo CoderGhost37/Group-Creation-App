@@ -20,14 +20,54 @@ export async function createGroup(values: z.infer<typeof GroupSchema>) {
       }
     }
 
-    const { name, description, cohortId, adminId } = validatedFields.data
+    const { name, description, cohortId } = validatedFields.data
+
+    const student = await db.student.findUnique({
+      where: {
+        userId: user.id,
+      },
+      select: {
+        id: true,
+        adminOfGroups: {
+          select: {
+            id: true,
+          },
+        },
+        groups: {
+          select: {
+            group: {
+              select: {
+                id: true,
+                cohortId: true,
+              },
+            },
+          },
+        },
+      },
+    })
+
+    if (!student) {
+      return {
+        success: false,
+        message: 'Student profile not found',
+      }
+    }
+
+    const memberOfGroupWithCohortId = student.groups.some((g) => g.group.cohortId === cohortId)
+
+    if (memberOfGroupWithCohortId) {
+      return {
+        success: false,
+        message: 'You are already a member of a group in this cohort',
+      }
+    }
 
     await db.group.create({
       data: {
         name,
         description,
         cohortId,
-        adminId,
+        adminId: student.id,
         status: 'OPEN',
       },
     })

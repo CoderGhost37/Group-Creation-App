@@ -10,7 +10,4 @@ export const GroupSchema = z.object({
   cohortId: z.string({
     required_error: 'Cohort is required',
   }),
-  adminId: z.string({
-    required_error: 'Admin ID is required',
-  }),
 })

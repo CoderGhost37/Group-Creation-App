@@ -53,7 +53,6 @@ export function CreateGroupForm({ userId }: CreateGroupFormProps) {
       name: '',
       description: '',
       cohortId: '',
-      adminId: userId,
     },
   })
 

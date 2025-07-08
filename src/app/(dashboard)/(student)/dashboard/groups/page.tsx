@@ -29,15 +29,6 @@ export default async function GroupsPage() {
     )
   }
 
-  const { data: groups, success: groupsSuccess } = await getUserCohortInfo(user.id)
-  if (!groupsSuccess || !groups) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <h1 className="text-2xl font-bold">No groups found</h1>
-      </div>
-    )
-  }
-
   return (
     <>
       <DashboardNavbar items={[{ name: 'Cohorts', href: '/dashboard/cohorts' }]} />
