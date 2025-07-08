@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '../ui/badge'
 import { CreateGroupForm } from './create-group-form'
 import { JoinedGroups } from './joined-groups'
+import { PendingRequests } from './pending-requests'
 
 interface GroupsProps {
   userId: string
@@ -46,7 +47,9 @@ export async function Groups({ userId }: GroupsProps) {
           <JoinedGroups />
         </TabsContent>
         <TabsContent value="browse">Browse Groups</TabsContent>
-        <TabsContent value="pending-requests">Pending Requests</TabsContent>
+        <TabsContent value="pending-requests">
+          <PendingRequests />
+        </TabsContent>
       </Tabs>
     </div>
   )
