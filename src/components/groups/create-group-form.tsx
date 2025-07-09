@@ -7,7 +7,6 @@ import { toast } from 'sonner'
 import type { z } from 'zod'
 
 import { createGroup } from '@/actions/groups/createGroup'
-import { getUserCohortInfo } from '@/actions/profile/getUserCohortsInfo'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -38,15 +37,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { GroupSchema } from '@/schemas/group'
 import type { Cohort } from '../cohorts/cohort.type'
 
-interface CreateGroupFormProps {
-  userId: string
-}
-
-export function CreateGroupForm({ userId }: CreateGroupFormProps) {
+export function CreateGroupForm({ cohorts }: { cohorts: Cohort[] }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
-  const [fetchingCohorts, setFetchingCohorts] = React.useState(false)
-  const [cohorts, setCohorts] = React.useState<Cohort[]>([])
   const form = useForm<z.infer<typeof GroupSchema>>({
     resolver: zodResolver(GroupSchema),
     defaultValues: {
@@ -55,24 +48,6 @@ export function CreateGroupForm({ userId }: CreateGroupFormProps) {
       cohortId: '',
     },
   })
-
-  React.useEffect(() => {
-    setFetchingCohorts(true)
-    getUserCohortInfo(userId)
-      .then((res) => {
-        if (res.success && res.data) {
-          setCohorts(res.data)
-        } else {
-          toast.error('Failed to fetch cohorts')
-        }
-      })
-      .catch(() => {
-        toast.error('Error fetching cohorts')
-      })
-      .finally(() => {
-        setFetchingCohorts(false)
-      })
-  }, [])
 
   function onSubmit(values: z.infer<typeof GroupSchema>) {
     startTransition(() => {
@@ -134,15 +109,9 @@ export function CreateGroupForm({ userId }: CreateGroupFormProps) {
                     <FormLabel>Cohort</FormLabel>
                     <FormControl>
                       <Select onValueChange={field.onChange} value={field.value}>
-                        {fetchingCohorts ? (
-                          <SelectTrigger className="w-full" disabled>
-                            <SelectValue placeholder="Loading cohorts..." />
-                          </SelectTrigger>
-                        ) : (
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select a cohort" />
-                          </SelectTrigger>
-                        )}
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a cohort" />
+                        </SelectTrigger>
                         <SelectContent>
                           {cohorts.length === 0 ? (
                             <SelectItem disabled value="none">

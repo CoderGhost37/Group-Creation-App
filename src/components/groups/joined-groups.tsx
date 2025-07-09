@@ -40,7 +40,7 @@ export async function JoinedGroups() {
                       {group.role}
                     </Badge>
                   ) : (
-                    <Badge className="text-xs bg-green-100 text-green-700 border-blue-200">
+                    <Badge className="text-xs bg-blue-100 text-blue-700 border-blue-200">
                       <User className="inline h-3 w-3" />
                       {group.role}
                     </Badge>
