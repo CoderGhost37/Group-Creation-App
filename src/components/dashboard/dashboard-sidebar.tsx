@@ -1,7 +1,7 @@
 'use client'
 
 import { UserRole } from '@/generated/prisma'
-import { ChevronUp, LogOut, type LucideIcon } from 'lucide-react'
+import { ChevronUp, Cog, LogOut, type LucideIcon } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -99,6 +99,12 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-auto">
+                <Link href="/dashboard/reset-password">
+                  <DropdownMenuItem className="hover:cursor-pointer">
+                    <Cog className="w-4 h-4 mr-2 text-muted-foreground" />
+                    Reset Password
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem className="hover:cursor-pointer" onClick={() => signOut()}>
                   <LogOut className="w-4 h-4 mr-2 text-muted-foreground" />
                   Logout
