@@ -5,7 +5,9 @@ import type { Metadata } from 'next'
 import { getGroupDetails } from '@/actions/groups/getGroupDetails'
 
 import { getUser } from '@/actions/auth/getUser'
+import { getGroupJoinRequests } from '@/actions/request/getGroupJoinRequest'
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
+import { GroupPendingRequests } from '@/components/group/group-pending-requests'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -49,7 +51,11 @@ export default async function GroupPage({
 }) {
   const groupId = (await params).groupId
 
-  const [group, user] = await Promise.all([getGroupDetails(groupId), getUser()])
+  const [group, joinRequests, user] = await Promise.all([
+    getGroupDetails(groupId),
+    getGroupJoinRequests(groupId),
+    getUser(),
+  ])
   if (!group) {
     return null
   }
@@ -107,17 +113,21 @@ export default async function GroupPage({
                   {isAdmin && (
                     <TabsTrigger value="requests">
                       Join Requests
-                      {/* {joinRequests.length > 0 && (
-                <Badge variant="secondary" className="ml-2">
-                  {joinRequests.length}
-                </Badge>
-              )} */}
+                      {joinRequests.length > 0 && (
+                        <Badge variant="secondary" className="ml-2">
+                          {joinRequests.length}
+                        </Badge>
+                      )}
                     </TabsTrigger>
                   )}
                 </TabsList>
                 <TabsContent value="logs">LOGS</TabsContent>
                 <TabsContent value="members">MEMBERS</TabsContent>
-                {isAdmin && <TabsContent value="requests">REQUESTS</TabsContent>}
+                {isAdmin && (
+                  <TabsContent value="requests">
+                    <GroupPendingRequests joinRequests={joinRequests} />
+                  </TabsContent>
+                )}
               </Tabs>
             </div>
           </div>
