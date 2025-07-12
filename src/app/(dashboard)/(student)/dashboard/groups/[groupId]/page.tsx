@@ -12,6 +12,7 @@ import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
 import { GroupLogs } from '@/components/group/group-logs'
 import { GroupMembers } from '@/components/group/group-members'
 import { GroupPendingRequests } from '@/components/group/group-pending-requests'
+import { LeaveGroup } from '@/components/group/leave-group'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -84,7 +85,7 @@ export default async function GroupPage({
                 <div>
                   <p className="text-2xl font-bold tracking-tight">{group.name}</p>
                 </div>
-                {isAdmin && <Button>ADMIN ACTIONS</Button>}
+                {isAdmin ? <Button>ADMIN ACTIONS</Button> : <LeaveGroup groupId={group.id} />}
               </div>
               <div className="space-y-2">
                 <p className="text-muted-foreground">{group.description}</p>
