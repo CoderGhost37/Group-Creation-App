@@ -29,7 +29,8 @@ export const getAllGroups = unstable_cache(
 
       const groups = await db.group.findMany({
         where: {
-          ...(query ? { name: { contains: query } } : {}),
+          status: 'OPEN',
+          ...(query ? { name: { contains: query, mode: 'insensitive' } } : {}),
           ...(cohortId
             ? { cohortId }
             : { cohortId: { in: student.cohorts.map((c) => c.cohortId) } }),
