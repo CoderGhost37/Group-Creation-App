@@ -66,6 +66,7 @@ export const getUserPendingGroups = async () => {
           name: group.group?.cohort?.name,
         },
         status: group.status,
+        requestId: group.id,
         requestedAt: group.createdAt,
       })),
     }

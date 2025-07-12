@@ -221,6 +221,7 @@ exports.RequestStatus = exports.$Enums.RequestStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
+  WITHDRAWN: 'WITHDRAWN',
 }
 
 exports.GroupLogType = exports.$Enums.GroupLogType = {

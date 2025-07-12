@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { format } from 'date-fns'
 import { Clock, Eye } from 'lucide-react'
 import Link from 'next/link'
+import { WithdrawGroupRequestForm } from '../requests/withdraw-group-request'
 
 export async function PendingRequests() {
   const { data: groups, success } = await getUserPendingGroups()
@@ -41,9 +42,7 @@ export async function PendingRequests() {
                 </div>
               </CardContent>
               <CardContent className="pt-0 flex flex-col gap-4 items-center">
-                <Button variant="outline" className="w-full bg-transparent">
-                  Withdraw Request
-                </Button>
+                <WithdrawGroupRequestForm requestId={request.requestId} />
                 <Link href={`/dashboard/groups/${request.id}`} className="w-full">
                   <Button className="w-full">
                     <Eye className="mr-1 h-4 w-4" />

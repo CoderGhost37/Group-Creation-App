@@ -197,4 +197,5 @@ enum RequestStatus {
   PENDING
   ACCEPTED
   REJECTED
+  WITHDRAWN
 }
