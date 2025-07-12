@@ -75,7 +75,6 @@ export default function DashboardResetPassword({ userId }: { userId: string }) {
         <CardContent>
           <div>
             <div className="*:not-first:mt-2">
-              {/* <Label htmlFor={id}>Input with password strength indicator</Label> */}
               <div className="relative">
                 <Input
                   id={id}

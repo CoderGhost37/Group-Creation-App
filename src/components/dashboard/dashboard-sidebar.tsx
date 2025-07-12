@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
@@ -98,7 +99,12 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
                   <ChevronUp className={cn(open ? 'ml-auto block' : 'hidden')} />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" className="w-auto">
+              <DropdownMenuContent side="top" className="w-48">
+                <div className="px-2">
+                  <p className="text-sm font-medium w-44 truncate">{user.name}</p>
+                  <p className="text-xs text-muted-foreground w-44 truncate">{user.email}</p>
+                </div>
+                <DropdownMenuSeparator />
                 <Link href="/dashboard/reset-password">
                   <DropdownMenuItem className="hover:cursor-pointer">
                     <Cog className="w-4 h-4 mr-2 text-muted-foreground" />

@@ -10,6 +10,7 @@ import type { UserRole } from './generated/prisma'
 
 type ExtendedUser = DefaultSession['user'] & {
   name: string
+  email: string
   role: UserRole
 }
 
@@ -22,6 +23,7 @@ declare module 'next-auth' {
 declare module 'next-auth/jwt' {
   interface JWT {
     name: string
+    email: string
     role: UserRole
   }
 }
@@ -37,6 +39,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!existingUser) return token
 
       token.role = existingUser.role
+      token.email = existingUser.email
       token.name = existingUser.name
 
       return token
@@ -44,6 +47,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ token, session }) {
       if (token.sub && token.role && token.name && session.user) {
         session.user.id = token.sub
+        session.user.email = token.email
         session.user.role = token.role
         session.user.name = token.name
       }
