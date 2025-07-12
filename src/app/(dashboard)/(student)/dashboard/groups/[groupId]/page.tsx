@@ -2,19 +2,19 @@ import { format } from 'date-fns'
 import { Calendar, Layers, Users } from 'lucide-react'
 import type { Metadata } from 'next'
 
-import { getGroupDetails } from '@/actions/groups/getGroupDetails'
-
 import { getUser } from '@/actions/auth/getUser'
+import { getGroupDetails } from '@/actions/groups/getGroupDetails'
 import { getGroupLogs } from '@/actions/groups/getGroupLogs'
 import { getGroupMemberDetails } from '@/actions/groups/getGroupMemberDetails'
 import { getGroupJoinRequests } from '@/actions/request/getGroupJoinRequest'
+
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
+import { AdminActions } from '@/components/group/admin-actions'
 import { GroupLogs } from '@/components/group/group-logs'
 import { GroupMembers } from '@/components/group/group-members'
 import { GroupPendingRequests } from '@/components/group/group-pending-requests'
 import { LeaveGroup } from '@/components/group/leave-group'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { GroupStatus } from '@/generated/prisma'
 import { db } from '@/lib/prisma'
@@ -85,7 +85,7 @@ export default async function GroupPage({
                 <div>
                   <p className="text-2xl font-bold tracking-tight">{group.name}</p>
                 </div>
-                {isAdmin ? <Button>ADMIN ACTIONS</Button> : <LeaveGroup groupId={group.id} />}
+                {isAdmin ? <AdminActions groupId={groupId} /> : <LeaveGroup groupId={groupId} />}
               </div>
               <div className="space-y-2">
                 <p className="text-muted-foreground">{group.description}</p>

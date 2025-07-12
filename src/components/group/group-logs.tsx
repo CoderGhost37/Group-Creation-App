@@ -1,3 +1,5 @@
+'use client'
+
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { GroupLogType } from '@/generated/prisma'
@@ -37,11 +39,16 @@ export function GroupLogs({ groupLogs }: GroupLogsProps) {
                 >
                   {log.type}
                 </Badge>
-                <span className="text-sm text-muted-foreground">
-                  {format(log.createdAt, 'MMMM dd, yyyy')}
-                </span>
+                <div className="flex flex-col items-end">
+                  <span className="text-sm text-muted-foreground">
+                    {format(log.createdAt, 'MMMM dd, yyyy')}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {format(log.createdAt, 'hh:mm a')}
+                  </span>
+                </div>
               </div>
-              <p className="mt-2">{log.content}</p>
+              <p className="mt-2 whitespace-pre">{log.content}</p>
             </div>
           ))}
         </div>
