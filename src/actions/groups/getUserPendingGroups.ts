@@ -28,6 +28,7 @@ export const getUserPendingGroups = async () => {
         status: 'PENDING',
       },
       select: {
+        id: true,
         group: {
           select: {
             id: true,
@@ -47,6 +48,7 @@ export const getUserPendingGroups = async () => {
             },
           },
         },
+        status: true,
         createdAt: true,
       },
     })
@@ -63,6 +65,7 @@ export const getUserPendingGroups = async () => {
           id: group.group?.cohort?.id,
           name: group.group?.cohort?.name,
         },
+        status: group.status,
         requestedAt: group.createdAt,
       })),
     }

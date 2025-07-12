@@ -40,12 +40,12 @@ export async function PendingRequests() {
                   <span>Requested on {format(request.requestedAt, 'PPP')}</span>
                 </div>
               </CardContent>
-              <CardContent className="pt-0 flex gap-4 items-center">
+              <CardContent className="pt-0 flex flex-col gap-4 items-center">
                 <Button variant="outline" className="w-full bg-transparent">
                   Withdraw Request
                 </Button>
                 <Link href={`/dashboard/groups/${request.id}`} className="w-full">
-                  <Button>
+                  <Button className="w-full">
                     <Eye className="mr-1 h-4 w-4" />
                     View Group
                   </Button>

@@ -1,10 +1,11 @@
 'use client'
 
-import { CheckCircle, Crown, Eye, Loader2, Search, User, Users } from 'lucide-react'
+import { CheckCircle, Crown, Loader2, Search, User, Users } from 'lucide-react'
 import React from 'react'
 
 import { getAllGroups } from '@/actions/groups/getGroups'
 
+import { getUserPendingGroups } from '@/actions/groups/getUserPendingGroups'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,12 +20,28 @@ import {
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import type { Cohort } from '../cohorts/cohort.type'
+import { JoinGroupRequestForm } from '../requests/join-group-request-form'
 
 export function BrowseGroups({ userId, cohorts }: { userId: string; cohorts: Cohort[] }) {
   const [groups, setGroups] = React.useState<any[]>([])
+  const [pendingRequests, setPendingRequests] = React.useState<any[]>([])
   const [searchQuery, setSearchQuery] = React.useState('')
   const [selectedCohort, setSelectedCohort] = React.useState('all')
   const [isPending, startTransition] = React.useTransition()
+
+  React.useEffect(() => {
+    startTransition(() => {
+      getUserPendingGroups()
+        .then((data) => {
+          if (data.success && data.data) {
+            setPendingRequests(data.data)
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching groups:', error)
+        })
+    })
+  }, [])
 
   React.useEffect(() => {
     startTransition(() => {
@@ -51,7 +68,11 @@ export function BrowseGroups({ userId, cohorts }: { userId: string; cohorts: Coh
     const cohortIdOfGroup = group.cohort.id
     const cohort = cohorts.find((c) => c.id === cohortIdOfGroup)
     const userGroupInCohort = getUserGroupInCohort(cohortIdOfGroup)
-    return cohort && !userGroupInCohort
+    const hasPendingRequestInGroup =
+      pendingRequests.filter((request) => request.id === group.id && request.status === 'PENDING')
+        .length > 0
+
+    return cohort && !userGroupInCohort && !hasPendingRequestInGroup
   }
 
   return (
@@ -188,26 +209,10 @@ export function BrowseGroups({ userId, cohorts }: { userId: string; cohorts: Coh
                         </div>
                         <div className="flex space-x-2">
                           <Link href={`/dashboard/groups/${group.id}`}>
-                            <Button variant="outline">
-                              <Eye className="mr-1 h-3 w-3" />
-                              View
-                            </Button>
+                            <Button variant="outline">View</Button>
                           </Link>
                           {!group.isUserMember && (
-                            <Button
-                              size="sm"
-                              // onClick={() => handleJoinRequest(group)}
-                              disabled={!canJoin}
-                              title={
-                                isUserInDifferentGroup
-                                  ? "You're already in a group for this cohort"
-                                  : canJoin
-                                    ? 'Request to join this group'
-                                    : 'Cannot join this group'
-                              }
-                            >
-                              {isUserInDifferentGroup ? 'Already Joined Cohort' : 'Join'}
-                            </Button>
+                            <JoinGroupRequestForm groupId={group.id} disabled={!canJoin} />
                           )}
                         </div>
                       </div>
