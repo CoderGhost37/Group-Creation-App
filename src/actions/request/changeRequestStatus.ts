@@ -1,7 +1,7 @@
 'use server'
 
 import { db } from '@/lib/prisma'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { getUser } from '../auth/getUser'
 
 export const changeRequestStatus = async (requestId: string, status: 'ACCEPTED' | 'REJECTED') => {
@@ -80,12 +80,13 @@ export const changeRequestStatus = async (requestId: string, status: 'ACCEPTED' 
         data: {
           groupId,
           type: 'AUDIT',
-          content: `User ${user.user.name} (${user.user.email}) has been accepted into the group.`,
+          content: `Join request for ${user.user.name} was approved and the user has been added to the group.`,
         },
       })
     }
 
-    revalidateTag('pending-requests')
+    revalidatePath(`/dashboard/groups/${groupId}`)
+    revalidatePath('/dashboard/groups')
 
     return {
       success: true,

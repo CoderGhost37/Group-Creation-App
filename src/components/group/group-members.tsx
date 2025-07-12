@@ -25,6 +25,7 @@ interface GroupMember {
   id: string
   name: string
   email: string
+  studentId: string
 }
 
 interface GroupMemberProps {
@@ -127,7 +128,7 @@ function MemberCard({
                 <AlertDialogAction asChild>
                   <Button
                     variant="destructive"
-                    onClick={() => handleRemoveMember(member.id)}
+                    onClick={() => handleRemoveMember(member.studentId)}
                     loading={isPending}
                   >
                     Remove Member

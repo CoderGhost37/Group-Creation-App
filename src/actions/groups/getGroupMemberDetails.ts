@@ -11,6 +11,7 @@ export const getGroupMemberDetails = async (groupId: string) => {
       select: {
         student: {
           select: {
+            id: true,
             user: {
               select: {
                 id: true,
@@ -27,6 +28,7 @@ export const getGroupMemberDetails = async (groupId: string) => {
       id: member.student.user?.id ?? '',
       name: member.student.user?.name ?? '',
       email: member.student.user?.email ?? '',
+      studentId: member.student.id,
     }))
   } catch (error) {
     console.error('Error fetching group member details:', error)

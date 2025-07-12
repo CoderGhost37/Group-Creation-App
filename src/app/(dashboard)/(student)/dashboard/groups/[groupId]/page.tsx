@@ -1,13 +1,15 @@
 import { format } from 'date-fns'
-import { Calendar, Layers } from 'lucide-react'
+import { Calendar, Layers, Users } from 'lucide-react'
 import type { Metadata } from 'next'
 
 import { getGroupDetails } from '@/actions/groups/getGroupDetails'
 
 import { getUser } from '@/actions/auth/getUser'
+import { getGroupLogs } from '@/actions/groups/getGroupLogs'
 import { getGroupMemberDetails } from '@/actions/groups/getGroupMemberDetails'
 import { getGroupJoinRequests } from '@/actions/request/getGroupJoinRequest'
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
+import { GroupLogs } from '@/components/group/group-logs'
 import { GroupMembers } from '@/components/group/group-members'
 import { GroupPendingRequests } from '@/components/group/group-pending-requests'
 import { Badge } from '@/components/ui/badge'
@@ -53,8 +55,9 @@ export default async function GroupPage({
 }) {
   const groupId = (await params).groupId
 
-  const [group, groupMembers, joinRequests, user] = await Promise.all([
+  const [group, groupLogs, groupMembers, joinRequests, user] = await Promise.all([
     getGroupDetails(groupId),
+    getGroupLogs(groupId),
     getGroupMemberDetails(groupId),
     getGroupJoinRequests(groupId),
     getUser(),
@@ -98,6 +101,18 @@ export default async function GroupPage({
                       {group.status}
                     </Badge>
                   </div>
+                  <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+                    <Users className="h-4 w-4" />
+                    <span>
+                      {group.membersCount}/{group.maxMembers}
+                    </span>
+                    <div className="w-16 bg-gray-200 rounded-full h-1.5 ml-2">
+                      <div
+                        className="bg-blue-500 h-1.5 rounded-full transition-all"
+                        style={{ width: `${(group.membersCount / group.maxMembers) * 100}%` }}
+                      />
+                    </div>
+                  </div>
                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
                     <span>Created on {format(group.createdAt, 'MMMM dd, yyyy')}</span>
@@ -124,7 +139,9 @@ export default async function GroupPage({
                     </TabsTrigger>
                   )}
                 </TabsList>
-                <TabsContent value="logs">LOGS</TabsContent>
+                <TabsContent value="logs">
+                  <GroupLogs groupLogs={groupLogs} />
+                </TabsContent>
                 <TabsContent value="members">
                   <GroupMembers
                     groupId={group.id}

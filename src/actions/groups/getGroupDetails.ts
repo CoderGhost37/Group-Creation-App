@@ -31,6 +31,11 @@ export const getGroupDetails = unstable_cache(
               },
             },
           },
+          members: {
+            select: {
+              studentId: true,
+            },
+          },
         },
       })
 
@@ -46,6 +51,8 @@ export const getGroupDetails = unstable_cache(
         createdAt: group.createdAt,
         cohort: group.cohort,
         adminUserId: group.admin?.user?.id,
+        membersCount: group.members.length,
+        maxMembers: 5,
       }
     } catch (error) {
       console.error('Error fetching group:', error)

@@ -1,7 +1,7 @@
 'use server'
 
 import { db } from '@/lib/prisma'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { getUser } from '../auth/getUser'
 
 export const withdrawJoinGroupRequest = async (requestId: string) => {
@@ -12,16 +12,20 @@ export const withdrawJoinGroupRequest = async (requestId: string) => {
   }
 
   try {
-    await db.groupJoinRequest.update({
+    const request = await db.groupJoinRequest.update({
       where: {
         id: requestId,
       },
       data: {
         status: 'WITHDRAWN',
       },
+      select: {
+        groupId: true,
+      },
     })
 
-    revalidateTag('pending-requests')
+    revalidatePath(`/dashboard/groups/${request.groupId}`)
+    revalidatePath('/dashboard/groups')
 
     return {
       success: true,
