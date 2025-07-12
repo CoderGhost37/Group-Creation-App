@@ -67,6 +67,7 @@ export default async function GroupPage({
     return null
   }
 
+  const isGroupMember = groupMembers.filter((member) => member.id === user?.id).length > 0
   const isAdmin = group.adminUserId === user?.id
 
   return (
@@ -85,7 +86,13 @@ export default async function GroupPage({
                 <div>
                   <p className="text-2xl font-bold tracking-tight">{group.name}</p>
                 </div>
-                {isAdmin ? <AdminActions groupId={groupId} /> : <LeaveGroup groupId={groupId} />}
+                {isGroupMember ? (
+                  isAdmin ? (
+                    <AdminActions groupId={groupId} />
+                  ) : (
+                    <LeaveGroup groupId={groupId} />
+                  )
+                ) : null}
               </div>
               <div className="space-y-2">
                 <p className="text-muted-foreground">{group.description}</p>

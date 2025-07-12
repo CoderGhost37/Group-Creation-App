@@ -51,6 +51,17 @@ export async function deleteGroup(groupId: string) {
       data: {
         status: 'DELETED',
         deletedAt: new Date(),
+        admin: {
+          disconnect: true,
+        },
+        members: {
+          delete: {
+            studentId_groupId: {
+              studentId: student.id,
+              groupId: groupId,
+            },
+          },
+        },
         groupLogs: {
           create: {
             type: 'AUDIT',
