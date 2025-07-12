@@ -5,8 +5,10 @@ import type { Metadata } from 'next'
 import { getGroupDetails } from '@/actions/groups/getGroupDetails'
 
 import { getUser } from '@/actions/auth/getUser'
+import { getGroupMemberDetails } from '@/actions/groups/getGroupMemberDetails'
 import { getGroupJoinRequests } from '@/actions/request/getGroupJoinRequest'
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
+import { GroupMembers } from '@/components/group/group-members'
 import { GroupPendingRequests } from '@/components/group/group-pending-requests'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -51,8 +53,9 @@ export default async function GroupPage({
 }) {
   const groupId = (await params).groupId
 
-  const [group, joinRequests, user] = await Promise.all([
+  const [group, groupMembers, joinRequests, user] = await Promise.all([
     getGroupDetails(groupId),
+    getGroupMemberDetails(groupId),
     getGroupJoinRequests(groupId),
     getUser(),
   ])
@@ -122,7 +125,14 @@ export default async function GroupPage({
                   )}
                 </TabsList>
                 <TabsContent value="logs">LOGS</TabsContent>
-                <TabsContent value="members">MEMBERS</TabsContent>
+                <TabsContent value="members">
+                  <GroupMembers
+                    groupId={group.id}
+                    groupMembers={groupMembers}
+                    isAdmin={isAdmin}
+                    adminId={group.adminUserId as string}
+                  />
+                </TabsContent>
                 {isAdmin && (
                   <TabsContent value="requests">
                     <GroupPendingRequests joinRequests={joinRequests} />
