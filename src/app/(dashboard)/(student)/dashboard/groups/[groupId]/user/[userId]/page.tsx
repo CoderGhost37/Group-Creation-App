@@ -12,18 +12,19 @@ import { db } from '@/lib/prisma'
 
 export async function generateMetadata({
   params,
-}: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const { id } = await params
-
+}: { params: Promise<{ userId: string }> }): Promise<Metadata> {
+  const { userId } = await params
   const user = await db.user.findUnique({
-    where: { id },
+    where: {
+      id: userId,
+    },
     select: {
       name: true,
     },
   })
 
   return {
-    title: `${user?.name}`,
+    title: user?.name,
   }
 }
 
@@ -33,23 +34,39 @@ export async function generateStaticParams() {
       id: true,
     },
   })
-  return slugs.map((slug: { id: string }) => ({ id: slug.id }))
+  return slugs.map((slug: { id: string }) => ({ userId: slug.id }))
 }
 
-export default async function AdminUserDetailPage({
+export default async function GroupPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ groupId: string; userId: string }>
 }) {
-  const userId = (await params).id
-  const user = await db.user.findUnique({
-    where: { id: userId },
-    select: {
-      name: true,
-      email: true,
-      status: true,
-    },
-  })
+  const { groupId, userId } = await params
+
+  const [group, user] = await Promise.all([
+    db.group.findUnique({
+      where: { id: groupId },
+      select: {
+        name: true,
+      },
+    }),
+    db.user.findUnique({
+      where: { id: userId },
+      select: {
+        name: true,
+        email: true,
+        status: true,
+      },
+    }),
+  ])
+  if (!group) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <h1 className="text-2xl font-bold">Group not found</h1>
+      </div>
+    )
+  }
   if (!user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -62,8 +79,9 @@ export default async function AdminUserDetailPage({
     <>
       <DashboardNavbar
         items={[
-          { name: 'Users', href: '/admin/dashboard/users' },
-          { name: user.name, href: `/admin/dashboard/users/${userId}` },
+          { name: 'Groups', href: '/dashboard/groups' },
+          { name: group.name, href: `/dashboard/groups/${groupId}` },
+          { name: user.name, href: `/dashboard/groups/${groupId}/user/${userId}` },
         ]}
       />
       <div className="w-full px-4 lg:px-6 py-4">
@@ -73,7 +91,7 @@ export default async function AdminUserDetailPage({
               <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                 <div>
                   <p className="text-2xl font-bold tracking-tight">User Profile</p>
-                  <p className="text-muted-foreground">View and manage user details</p>
+                  <p className="text-muted-foreground">View user details</p>
                 </div>
                 <AdminActions user={user} userId={userId} />
               </div>

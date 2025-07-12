@@ -42,7 +42,7 @@ export async function removeGroupMember(groupId: string, memberId: string) {
     if (!group || group.adminId !== studentId) {
       throw new Error('You are not authorized to remove members from this group')
     }
-    console.log(memberId)
+
     const member = await db.groupMember.delete({
       where: {
         studentId_groupId: {
