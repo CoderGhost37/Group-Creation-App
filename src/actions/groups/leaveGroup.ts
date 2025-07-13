@@ -41,6 +41,19 @@ export async function leaveGroup(groupId: string) {
       },
     })
 
+    await db.studentLog.create({
+      data: {
+        type: 'LEAVE_GROUP',
+        action: 'Left Group',
+        details: `Left group ${groupId}`,
+        student: {
+          connect: {
+            id: student.id,
+          },
+        },
+      },
+    })
+
     revalidatePath(`/dashboard/groups/${groupId}`)
     revalidatePath('/dashboard/groups')
     revalidateTag('groups')

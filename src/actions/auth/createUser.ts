@@ -25,7 +25,15 @@ export async function createUser(name: string, email: string) {
         email,
         password: hashedPassword,
         student: {
-          create: {},
+          create: {
+            studentLogs: {
+              create: {
+                type: 'ACCOUNT_CREATED',
+                action: 'User account created',
+                details: `User account with email ${email} created`,
+              },
+            },
+          },
         },
       },
       include: {

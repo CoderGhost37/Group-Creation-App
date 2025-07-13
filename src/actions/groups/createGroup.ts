@@ -71,7 +71,20 @@ export async function createGroup(values: z.infer<typeof GroupSchema>) {
         status: 'OPEN',
         members: {
           create: {
-            studentId: student.id,
+            student: {
+              connect: {
+                id: student.id,
+              },
+              create: {
+                studentLogs: {
+                  create: {
+                    type: 'CREATE_GROUP',
+                    action: 'User created a new group',
+                    details: `Created group ${name}`,
+                  },
+                },
+              },
+            },
           },
         },
         groupLogs: {

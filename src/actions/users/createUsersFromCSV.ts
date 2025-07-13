@@ -67,7 +67,7 @@ export async function createUsersFromCSV(values: z.infer<typeof UploadStudentsSc
         studentId = newUser.student!.id
       }
 
-      await db.studentCohort.upsert({
+      const studentCohort = await db.studentCohort.upsert({
         where: {
           studentId_cohortId: {
             studentId,
@@ -78,6 +78,28 @@ export async function createUsersFromCSV(values: z.infer<typeof UploadStudentsSc
         create: {
           studentId,
           cohortId,
+        },
+        select: {
+          cohort: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      })
+
+      const cohortName = studentCohort.cohort?.name || 'Unknown Cohort'
+
+      await db.studentLog.create({
+        data: {
+          type: 'JOIN_COHORT',
+          action: 'User enrolled in a new cohort',
+          details: `Enrolled in ${cohortName} cohort`,
+          student: {
+            connect: {
+              id: studentId,
+            },
+          },
         },
       })
     }

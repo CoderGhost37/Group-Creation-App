@@ -5,9 +5,9 @@ import { revalidatePath } from 'next/cache'
 import { getUser } from '../auth/getUser'
 
 export const changeRequestStatus = async (requestId: string, status: 'ACCEPTED' | 'REJECTED') => {
-  const user = await getUser()
+  const loggedInUser = await getUser()
 
-  if (!user) {
+  if (!loggedInUser) {
     throw new Error('User not authenticated')
   }
 
@@ -20,12 +20,26 @@ export const changeRequestStatus = async (requestId: string, status: 'ACCEPTED' 
         status,
       },
       select: {
-        groupId: true,
+        group: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
         userId: true,
       },
     })
 
-    const groupId = request.groupId
+    if (!request.group) {
+      return {
+        success: false,
+        message: null,
+        error: 'Group not found',
+      }
+    }
+
+    const groupId = request.group.id
+    const groupName = request.group.name
     const studentId = request.userId
 
     const user = await db.student.findUnique({
@@ -65,6 +79,29 @@ export const changeRequestStatus = async (requestId: string, status: 'ACCEPTED' 
         },
       })
 
+      await db.studentLog.createMany({
+        data: [
+          {
+            type: 'GROUP_JOIN_REQUEST_ACCEPTED',
+            action: 'Group Join Request Approved',
+            details: `Group join request for group ${groupName} has been approved`,
+            studentId,
+          },
+          {
+            type: 'JOIN_GROUP',
+            action: 'User joined a new group',
+            details: `Joined ${groupName} group`,
+            studentId,
+          },
+          {
+            type: 'ACCEPTED_GROUP_JOIN_REQUEST',
+            action: 'Group Join Request Accepted',
+            details: `Group join request of user ${user.user.name} has been accepted for ${groupName} group`,
+            studentId: loggedInUser.id,
+          },
+        ],
+      })
+
       if (groupMembersCount === 5) {
         await db.group.update({
           where: {
@@ -82,6 +119,23 @@ export const changeRequestStatus = async (requestId: string, status: 'ACCEPTED' 
           type: 'AUDIT',
           content: `Join request for ${user.user.name} was approved and the user has been added to the group.`,
         },
+      })
+    } else {
+      await db.studentLog.createMany({
+        data: [
+          {
+            type: 'GROUP_JOIN_REQUEST_REJECTED',
+            action: 'Group Join Request Rejected',
+            details: `Group join request for group ${groupName} has been rejected`,
+            studentId,
+          },
+          {
+            type: 'REJECTED_GROUP_JOIN_REQUEST',
+            action: 'Group Join Request Rejected',
+            details: `Group join request of user ${user.user.name} has been rejected for ${groupName} group`,
+            studentId: loggedInUser.id,
+          },
+        ],
       })
     }
 

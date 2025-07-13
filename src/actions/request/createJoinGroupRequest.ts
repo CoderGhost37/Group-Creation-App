@@ -45,6 +45,19 @@ export const createGroupJoiningRequest = async (reason: string, groupId: string)
       },
     })
 
+    await db.studentLog.create({
+      data: {
+        type: 'SEND_GROUP_JOIN_REQUEST',
+        action: 'Group Join Request Created',
+        details: `Join request for group ${groupId} created with reason: ${reason}`,
+        student: {
+          connect: {
+            id: student.id,
+          },
+        },
+      },
+    })
+
     revalidatePath(`/dashboard/groups/${groupId}`)
     revalidatePath('/dashboard/groups')
 

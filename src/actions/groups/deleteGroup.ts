@@ -22,7 +22,7 @@ export async function deleteGroup(groupId: string) {
 
     const group = await db.group.findUnique({
       where: { id: groupId },
-      select: { id: true, adminId: true, members: { select: { id: true } } },
+      select: { id: true, name: true, adminId: true, members: { select: { id: true } } },
     })
 
     if (!group) {
@@ -66,6 +66,19 @@ export async function deleteGroup(groupId: string) {
           create: {
             type: 'AUDIT',
             content: `Group deleted by ${user.name}`,
+          },
+        },
+      },
+    })
+
+    await db.studentLog.create({
+      data: {
+        type: 'DELETE_GROUP',
+        action: 'Group Deleted',
+        details: `Deleted ${group.name} group`,
+        student: {
+          connect: {
+            id: student.id,
           },
         },
       },

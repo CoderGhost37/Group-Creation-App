@@ -21,6 +21,17 @@ export async function deleteUser(userId: string) {
         status: 'DELETED',
         bannedAt: null,
         deletedAt: new Date(),
+        student: {
+          update: {
+            studentLogs: {
+              create: {
+                type: 'ACCOUNT_DELETED',
+                action: 'User account deleted',
+                details: 'User account deleted by admin',
+              },
+            },
+          },
+        },
       },
     })
     revalidateTag('users')
