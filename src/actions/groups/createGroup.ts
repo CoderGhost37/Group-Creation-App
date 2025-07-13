@@ -75,15 +75,6 @@ export async function createGroup(values: z.infer<typeof GroupSchema>) {
               connect: {
                 id: student.id,
               },
-              create: {
-                studentLogs: {
-                  create: {
-                    type: 'CREATE_GROUP',
-                    action: 'User created a new group',
-                    details: `Created group ${name}`,
-                  },
-                },
-              },
             },
           },
         },
@@ -93,6 +84,15 @@ export async function createGroup(values: z.infer<typeof GroupSchema>) {
             content: `Group created by ${user.name}`,
           },
         },
+      },
+    })
+
+    await db.studentLog.create({
+      data: {
+        type: 'CREATE_GROUP',
+        action: 'Group Created',
+        details: `Created group ${name}`,
+        studentId: student.id,
       },
     })
 

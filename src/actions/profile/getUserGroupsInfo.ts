@@ -37,7 +37,11 @@ export const getUserGroupsInfo = async (userId: string) => {
     })
 
     if (!user || !user.student) {
-      throw new Error('User not found or student profile is incomplete')
+      return {
+        success: false,
+        data: null,
+        error: 'User not found or student profile is incomplete',
+      }
     }
 
     return {

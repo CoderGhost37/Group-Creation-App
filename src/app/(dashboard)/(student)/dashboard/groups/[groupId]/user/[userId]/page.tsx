@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
 import { ActivityInfo } from '@/components/profile/activity-info'
-import { AdminActions } from '@/components/profile/admin-action'
 import { BasicInfo } from '@/components/profile/basic-info'
 import { CohortInfo } from '@/components/profile/cohort-info'
 import { GroupInfo } from '@/components/profile/group-info'
@@ -93,7 +92,6 @@ export default async function GroupPage({
                   <p className="text-2xl font-bold tracking-tight">User Profile</p>
                   <p className="text-muted-foreground">View user details</p>
                 </div>
-                <AdminActions user={user} userId={userId} />
               </div>
 
               <BasicInfo userId={userId} />

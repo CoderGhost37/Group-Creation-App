@@ -160,7 +160,7 @@ export default async function GroupPage({
                 </TabsContent>
                 {isAdmin && (
                   <TabsContent value="requests">
-                    <GroupPendingRequests joinRequests={joinRequests} />
+                    <GroupPendingRequests joinRequests={joinRequests} groupId={groupId} />
                   </TabsContent>
                 )}
               </Tabs>

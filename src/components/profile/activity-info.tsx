@@ -112,15 +112,15 @@ export async function ActivityInfo({ userId }: { userId: string }) {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-start justify-between">
-                    <p className="font-medium">{log.action}</p>
+                    <p className="font-medium">{log.details}</p>
                     <span className="ml-2 whitespace-nowrap text-xs text-muted-foreground">
                       {format(log.createdAt, 'MMM dd, yyyy')}
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground">{log.details}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">{log.action}</p>
+                  {/* <p className="mt-1 text-xs text-muted-foreground">
                     {getLogTypeDescription(log.type)}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             ))}

@@ -11668,13 +11668,13 @@ export namespace Prisma {
 
   export type GroupWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    adminId?: string
     AND?: GroupWhereInput | GroupWhereInput[]
     OR?: GroupWhereInput[]
     NOT?: GroupWhereInput | GroupWhereInput[]
     name?: StringFilter<"Group"> | string
     description?: StringNullableFilter<"Group"> | string | null
     status?: EnumGroupStatusFilter<"Group"> | $Enums.GroupStatus
+    adminId?: StringNullableFilter<"Group"> | string | null
     cohortId?: StringNullableFilter<"Group"> | string | null
     deletedAt?: DateTimeNullableFilter<"Group"> | Date | string | null
     createdAt?: DateTimeFilter<"Group"> | Date | string
@@ -11684,7 +11684,7 @@ export namespace Prisma {
     members?: GroupMemberListRelationFilter
     cohort?: XOR<CohortNullableScalarRelationFilter, CohortWhereInput> | null
     groupJoinRequests?: GroupJoinRequestListRelationFilter
-  }, "id" | "adminId">
+  }, "id">
 
   export type GroupOrderByWithAggregationInput = {
     id?: SortOrder

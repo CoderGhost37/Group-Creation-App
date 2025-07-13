@@ -29,7 +29,7 @@ model Group {
 
   groupLogs GroupLog[]
 
-  adminId String?  @unique @map("admin_id") @db.ObjectId
+  adminId String?  @map("admin_id") @db.ObjectId
   admin   Student? @relation("GroupsAdministered", fields: [adminId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   members GroupMember[]

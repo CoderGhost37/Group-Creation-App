@@ -28,7 +28,7 @@ export const createGroupJoiningRequest = async (reason: string, groupId: string)
       }
     }
 
-    await db.groupJoinRequest.create({
+    const groupJoinReq = await db.groupJoinRequest.create({
       data: {
         reason,
         group: {
@@ -43,13 +43,22 @@ export const createGroupJoiningRequest = async (reason: string, groupId: string)
         },
         status: 'PENDING',
       },
+      select: {
+        group: {
+          select: {
+            name: true,
+          },
+        },
+      },
     })
+
+    const groupName = groupJoinReq.group?.name
 
     await db.studentLog.create({
       data: {
         type: 'SEND_GROUP_JOIN_REQUEST',
         action: 'Group Join Request Created',
-        details: `Join request for group ${groupId} created with reason: ${reason}`,
+        details: `Sent a join request for group ${groupName}`,
         student: {
           connect: {
             id: student.id,

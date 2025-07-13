@@ -41,7 +41,7 @@ export async function Groups({ userId }: GroupsProps) {
       </div>
 
       <Tabs defaultValue="my-groups" className="flex flex-col">
-        <TabsList>
+        <TabsList className="w-full">
           <TabsTrigger value="my-groups">My Groups</TabsTrigger>
           <TabsTrigger value="browse">Browse Groups</TabsTrigger>
           <TabsTrigger value="pending-requests">

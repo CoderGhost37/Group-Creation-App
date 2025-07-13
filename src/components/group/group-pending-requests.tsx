@@ -1,7 +1,7 @@
 'use client'
 
 import { format } from 'date-fns'
-import { Check, Clock, X } from 'lucide-react'
+import { Check, Clock, UserCircle, X } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
 
@@ -10,6 +10,7 @@ import { changeRequestStatus } from '@/actions/request/changeRequestStatus'
 import { UserAvatar } from '@/components/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import Link from 'next/link'
 
 interface PendingRequests {
   id: string
@@ -59,7 +60,10 @@ function ActionButtons({ requestId, type }: { requestId: string; type: 'accept' 
   )
 }
 
-export function GroupPendingRequests({ joinRequests }: { joinRequests: PendingRequests[] }) {
+export function GroupPendingRequests({
+  joinRequests,
+  groupId,
+}: { joinRequests: PendingRequests[]; groupId: string }) {
   return (
     <Card>
       <CardHeader>
@@ -88,18 +92,26 @@ export function GroupPendingRequests({ joinRequests }: { joinRequests: PendingRe
                       <p className="text-sm text-muted-foreground">{request.user.email}</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <Clock className="h-4 w-4" />
-                    <span>{format(request.createdAt, 'PPP')}</span>
-                  </div>
+                  <Link href={`/dashboard/groups/${groupId}/user/${request.user.id}`}>
+                    <Button variant="link" size="sm">
+                      <UserCircle className="mr-1 h-4 w-4" />
+                      View Profile
+                    </Button>
+                  </Link>
                 </div>
                 <div className="mt-2">
                   <p className="text-sm text-muted-foreground">Reason:</p>
                   <p className="mt-1 text-sm">{request.reason}</p>
                 </div>
-                <div className="mt-4 flex justify-end space-x-2">
-                  <ActionButtons requestId={request.id} type="reject" />
-                  <ActionButtons requestId={request.id} type="accept" />
+                <div className="mt-4 flex justify-between gap-4">
+                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4" />
+                    <span>{format(request.createdAt, 'PPP')}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <ActionButtons requestId={request.id} type="reject" />
+                    <ActionButtons requestId={request.id} type="accept" />
+                  </div>
                 </div>
               </div>
             ))}
