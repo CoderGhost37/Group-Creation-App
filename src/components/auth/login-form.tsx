@@ -35,7 +35,7 @@ import { LoginSchema } from '@/schemas/login'
 export function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectUrl = searchParams.get('redirect') || '/dashboard'
+  const redirectUrl = searchParams.get('redirect') || '/dashboard/cohorts'
 
   const [isPending, startTransition] = React.useTransition()
   const [error, setError] = React.useState<string | null>(null)

@@ -105,7 +105,13 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
                   <p className="text-xs text-muted-foreground w-44 truncate">{user.email}</p>
                 </div>
                 <DropdownMenuSeparator />
-                <Link href="/dashboard/reset-password">
+                <Link
+                  href={
+                    user.role === 'USER'
+                      ? '/dashboard/reset-password'
+                      : '/admin/dashboard/reset-password'
+                  }
+                >
                   <DropdownMenuItem className="hover:cursor-pointer">
                     <Cog className="w-4 h-4 mr-2 text-muted-foreground" />
                     Reset Password
