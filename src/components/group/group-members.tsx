@@ -33,9 +33,16 @@ interface GroupMemberProps {
   groupMembers: Array<GroupMember>
   isAdmin: boolean
   adminId: string
+  isAdminUser?: boolean
 }
 
-export function GroupMembers({ groupId, groupMembers, isAdmin, adminId }: GroupMemberProps) {
+export function GroupMembers({
+  groupId,
+  groupMembers,
+  isAdmin,
+  adminId,
+  isAdminUser,
+}: GroupMemberProps) {
   return (
     <Card>
       <CardHeader>
@@ -51,6 +58,7 @@ export function GroupMembers({ groupId, groupMembers, isAdmin, adminId }: GroupM
               isAdmin={isAdmin}
               adminId={adminId}
               groupId={groupId}
+              isAdminUser={isAdminUser}
             />
           ))}
         </div>
@@ -64,7 +72,14 @@ function MemberCard({
   isAdmin,
   groupId,
   adminId,
-}: { member: GroupMember; isAdmin: boolean; groupId: string; adminId: string }) {
+  isAdminUser,
+}: {
+  member: GroupMember
+  isAdmin: boolean
+  groupId: string
+  adminId: string
+  isAdminUser?: boolean
+}) {
   const [isPending, startTransition] = React.useTransition()
 
   const handleRemoveMember = async (memberId: string) => {
@@ -101,7 +116,13 @@ function MemberCard({
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Link href={`/dashboard/groups/${groupId}/user/${member.id}`}>
+        <Link
+          href={
+            isAdminUser
+              ? `/admin/dashboard/users/${member.id}`
+              : `/dashboard/groups/${groupId}/user/${member.id}`
+          }
+        >
           <Button variant="ghost" size="sm">
             <ExternalLink className="mr-2 h-4 w-4" />
             Profile
