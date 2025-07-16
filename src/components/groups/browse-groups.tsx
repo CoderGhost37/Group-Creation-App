@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import { toast } from 'sonner'
 import type { Cohort } from '../cohorts/cohort.type'
 import { JoinGroupRequestForm } from '../requests/join-group-request-form'
 
@@ -27,7 +28,32 @@ export function BrowseGroups({ userId, cohorts }: { userId: string; cohorts: Coh
   const [pendingRequests, setPendingRequests] = React.useState<any[]>([])
   const [searchQuery, setSearchQuery] = React.useState('')
   const [selectedCohort, setSelectedCohort] = React.useState('all')
+  const [firstTimeLoading, setFirstTimeLoading] = React.useState(true)
+  const [page, setPage] = React.useState(1)
+  const [hasMore, setHasMore] = React.useState(true)
   const [isPending, startTransition] = React.useTransition()
+
+  const fetchGroups = (reset = false) => {
+    startTransition(() => {
+      getAllGroups(
+        userId,
+        searchQuery !== '' ? searchQuery : undefined,
+        selectedCohort !== 'all' ? selectedCohort : undefined,
+        reset ? 1 : page,
+        6
+      )
+        .then((data) => {
+          setGroups((prev) => (reset ? data : [...prev, ...data]))
+          setHasMore(data.length === 6)
+          setFirstTimeLoading(false)
+        })
+        .catch(() => {
+          toast.error('Failed to fetch groups')
+          setGroups([])
+          setHasMore(false)
+        })
+    })
+  }
 
   React.useEffect(() => {
     startTransition(() => {
@@ -44,20 +70,17 @@ export function BrowseGroups({ userId, cohorts }: { userId: string; cohorts: Coh
   }, [])
 
   React.useEffect(() => {
-    startTransition(() => {
-      getAllGroups(
-        userId,
-        searchQuery !== '' ? searchQuery : undefined,
-        selectedCohort !== 'all' ? selectedCohort : undefined
-      )
-        .then((data) => {
-          setGroups(data)
-        })
-        .catch((error) => {
-          console.error('Error fetching groups:', error)
-        })
-    })
+    setPage(1)
+    fetchGroups(true)
   }, [searchQuery, selectedCohort])
+
+  const handleLoadMore = () => {
+    setPage((prev) => prev + 1)
+  }
+
+  React.useEffect(() => {
+    if (page > 1) fetchGroups()
+  }, [page])
 
   const getUserGroupInCohort = (cohortId: string) => {
     const group = groups.find((group) => group.cohort.id === cohortId && group.isUserMember)
@@ -105,10 +128,15 @@ export function BrowseGroups({ userId, cohorts }: { userId: string; cohorts: Coh
         </div>
       </div>
 
-      {isPending ? (
-        <div className="flex h-[300px] items-center justify-center">
-          <Loader2 className="mr-1 h-6 w-6 animate-spin text-muted-foreground" />
-          <p className="text-muted-foreground">Loading groups...</p>
+      {firstTimeLoading ? (
+        <div className="flex h-[300px] items-center justify-center text-muted-foreground">
+          <Loader2 className="mr-1 h-6 w-6 animate-spin" />
+          <span>Loading groups...</span>
+        </div>
+      ) : isPending ? (
+        <div className="flex items-center justify-center py-12 text-muted-foreground">
+          <Loader2 className="mr-1 h-6 w-6 animate-spin" />
+          <span>Loading groups...</span>
         </div>
       ) : groups.length === 0 ? (
         <div className="flex h-[300px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center">
@@ -228,6 +256,14 @@ export function BrowseGroups({ userId, cohorts }: { userId: string; cohorts: Coh
             })}
           </div>
         </>
+      )}
+
+      {!firstTimeLoading && hasMore && (
+        <div className="flex justify-center mt-4 ">
+          <Button onClick={handleLoadMore} loading={isPending}>
+            Load More
+          </Button>
+        </div>
       )}
     </div>
   )

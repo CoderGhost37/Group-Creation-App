@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Search, Users } from 'lucide-react'
+import { Loader2, Search, Users } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { toast } from 'sonner'
@@ -21,6 +21,7 @@ export function BrowseGroupsAdmin({ userId, cohorts }: { userId: string; cohorts
   const [groups, setGroups] = React.useState<any[]>([])
   const [searchQuery, setSearchQuery] = React.useState('')
   const [selectedCohort, setSelectedCohort] = React.useState('all')
+  const [firstTimeLoading, setFirstTimeLoading] = React.useState(true)
   const [page, setPage] = React.useState(1)
   const [hasMore, setHasMore] = React.useState(true)
   const [isPending, startTransition] = React.useTransition()
@@ -37,6 +38,7 @@ export function BrowseGroupsAdmin({ userId, cohorts }: { userId: string; cohorts
         .then((data) => {
           setGroups((prev) => (reset ? data : [...prev, ...data]))
           setHasMore(data.length === 6)
+          setFirstTimeLoading(false)
         })
         .catch(() => {
           toast.error('Failed to fetch groups')
@@ -102,7 +104,17 @@ export function BrowseGroupsAdmin({ userId, cohorts }: { userId: string; cohorts
         </div>
       </div>
 
-      {groups.length === 0 && !isPending ? (
+      {firstTimeLoading ? (
+        <div className="flex items-center justify-center py-12 text-muted-foreground">
+          <Loader2 className="mr-1 h-6 w-6 animate-spin" />
+          <span>Loading groups...</span>
+        </div>
+      ) : isPending ? (
+        <div className="flex items-center justify-center py-12 text-muted-foreground">
+          <Loader2 className="mr-1 h-6 w-6 animate-spin" />
+          <span>Loading groups...</span>
+        </div>
+      ) : groups.length === 0 ? (
         <div className="text-center text-muted-foreground py-12">No groups found.</div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -139,7 +151,9 @@ export function BrowseGroupsAdmin({ userId, cohorts }: { userId: string; cohorts
                     </div>
                   </div>
                   <Link href={`/admin/dashboard/groups/${group.id}`}>
-                    <Button variant="outline">View</Button>
+                    <Button size="sm" variant="outline">
+                      View
+                    </Button>
                   </Link>
                 </div>
               </CardContent>
@@ -148,7 +162,7 @@ export function BrowseGroupsAdmin({ userId, cohorts }: { userId: string; cohorts
         </div>
       )}
 
-      {hasMore && (
+      {!firstTimeLoading && hasMore && (
         <div className="flex justify-center">
           <Button onClick={handleLoadMore} loading={isPending}>
             Load More

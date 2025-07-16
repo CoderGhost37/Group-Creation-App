@@ -4,7 +4,7 @@ import { db } from '@/lib/prisma'
 import { unstable_cache } from 'next/cache'
 
 export const getAllGroups = unstable_cache(
-  async (userId: string, query?: string, cohortId?: string) => {
+  async (userId: string, query?: string, cohortId?: string, page = 1, limit = 12) => {
     try {
       const student = await db.student.findUnique({
         where: { userId },
@@ -52,6 +52,8 @@ export const getAllGroups = unstable_cache(
             },
           },
         },
+        skip: (page - 1) * limit,
+        take: limit,
       })
       return groups.map((group) => ({
         id: group.id,
