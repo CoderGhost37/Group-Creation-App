@@ -1,5 +1,5 @@
 import { UserRole } from '@/generated/prisma'
-import { Layers, UserCircle, Users } from 'lucide-react'
+import { Compass, Layers, UserCircle, Users } from 'lucide-react'
 
 export function getSidebarItems(role: UserRole) {
   if (role === UserRole.ADMIN) {
@@ -21,6 +21,11 @@ const adminSidebarItems = [
     title: 'Users',
     icon: Users,
     link: '/admin/dashboard/users',
+  },
+  {
+    title: 'Browse Groups',
+    icon: Compass,
+    link: '/admin/dashboard/groups',
   },
 ]
 
