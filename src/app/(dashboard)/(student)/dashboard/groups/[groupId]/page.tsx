@@ -132,38 +132,47 @@ export default async function GroupPage({
                 </div>
               </div>
 
-              <Tabs defaultValue="logs" className="space-y-4">
-                <TabsList className="w-full justify-start sm:w-auto">
-                  <TabsTrigger value="logs">Logs</TabsTrigger>
-                  <TabsTrigger value="members">Members</TabsTrigger>
-                  {isAdmin && (
-                    <TabsTrigger value="requests">
-                      Join Requests
-                      {joinRequests.length > 0 && (
-                        <Badge variant="secondary" className="ml-2">
-                          {joinRequests.length}
-                        </Badge>
-                      )}
-                    </TabsTrigger>
-                  )}
-                </TabsList>
-                <TabsContent value="logs">
-                  <GroupLogs groupLogs={groupLogs} />
-                </TabsContent>
-                <TabsContent value="members">
-                  <GroupMembers
-                    groupId={group.id}
-                    groupMembers={groupMembers}
-                    isAdmin={isAdmin}
-                    adminId={group.adminUserId as string}
-                  />
-                </TabsContent>
-                {isAdmin && (
-                  <TabsContent value="requests">
-                    <GroupPendingRequests joinRequests={joinRequests} groupId={groupId} />
+              {isGroupMember ? (
+                <Tabs defaultValue="logs" className="space-y-4">
+                  <TabsList className="w-full justify-start sm:w-auto">
+                    <TabsTrigger value="logs">Logs</TabsTrigger>
+                    <TabsTrigger value="members">Members</TabsTrigger>
+                    {isAdmin && (
+                      <TabsTrigger value="requests">
+                        Join Requests
+                        {joinRequests.length > 0 && (
+                          <Badge variant="secondary" className="ml-2">
+                            {joinRequests.length}
+                          </Badge>
+                        )}
+                      </TabsTrigger>
+                    )}
+                  </TabsList>
+                  <TabsContent value="logs">
+                    <GroupLogs groupLogs={groupLogs} />
                   </TabsContent>
-                )}
-              </Tabs>
+                  <TabsContent value="members">
+                    <GroupMembers
+                      groupId={group.id}
+                      groupMembers={groupMembers}
+                      isAdmin={isAdmin}
+                      adminId={group.adminUserId as string}
+                    />
+                  </TabsContent>
+                  {isAdmin && (
+                    <TabsContent value="requests">
+                      <GroupPendingRequests joinRequests={joinRequests} groupId={groupId} />
+                    </TabsContent>
+                  )}
+                </Tabs>
+              ) : (
+                <GroupMembers
+                  groupId={group.id}
+                  groupMembers={groupMembers}
+                  isAdmin={isAdmin}
+                  adminId={group.adminUserId as string}
+                />
+              )}
             </div>
           </div>
         </div>
